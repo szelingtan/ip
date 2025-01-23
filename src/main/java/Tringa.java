@@ -33,6 +33,15 @@ public class Tringa {
                     change.markDone();
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + change.toString());
+                } else if (input.startsWith("delete")) {
+                    String[] parts = input.split(" ");
+                    int index = Integer.valueOf(parts[1]);
+                    Task deletedTask = lst.get(index - 1);
+                    lst.remove(index - 1); // remove specified task
+                    int num = lst.size(); // total number of tasks in list
+                    System.out.println("Noted. I've removed this task:");
+                    System.out.println("  " + deletedTask.toString());
+                    System.out.println("Now you have " + num + " tasks in the list.");
                 } else {
                     // ToDOs Command
                     if (input.startsWith("todo")) {
