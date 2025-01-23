@@ -4,7 +4,7 @@ public class Tringa {
     private static Task t; //task
 
     public static void main(String[] args) {
-        System.out.println("Hello! I'm tringa");
+        System.out.println("Hello! I'm Tringa.");
         System.out.println("What can I do for you?");
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
