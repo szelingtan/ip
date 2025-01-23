@@ -1,15 +1,10 @@
-public class Task {
+public abstract class Task {
     protected String description;
     protected boolean isDone;
-    // every task has a unique count number
-    private static int count = 0;
-    private int tag;
 
     public Task(String description) {
-        this.description = description;
         this.isDone = false;
-        count++;
-        this.tag = count;
+        this.description = description;
     }
 
     public String getStatusIcon() {
@@ -22,10 +17,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return tag + ".[" + getStatusIcon() + "] " + description;
-    }
-
-    public String taskOnly() {
         return "[" + getStatusIcon() + "] " + description;
     }
+
 }
