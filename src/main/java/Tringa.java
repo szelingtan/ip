@@ -1,16 +1,15 @@
+import java.io.IOException;
 import java.util.*;
 
 public class Tringa {
     private static Task t; // task
-    private static List<Task> lst;
+    private static List<Task> lst = new ArrayList<Task>();
 
     public static void main(String[] args) {
         System.out.println("Hello! I'm Tringa.");
         System.out.println("What can I do for you?");
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
-        // List of Tasks
-        lst = new ArrayList<>();
         while (!input.equals("bye")) {
             try {
                 // EmptyInputException
@@ -81,6 +80,11 @@ public class Tringa {
         markedTask.markDone();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  " + markedTask);
+        try {
+            Storage.writeToFile(lst);
+        } catch (IOException e) {
+            System.out.print(e.getMessage());
+        }
     }
 
     //Helper to handle delete command
@@ -93,6 +97,11 @@ public class Tringa {
         System.out.println("Noted. I've removed this task:");
         System.out.println("  " + deletedTask.toString());
         System.out.println("Now you have " + num + " tasks in the list.");
+        try {
+            Storage.writeToFile(lst);
+        } catch (IOException e) {
+            System.out.print(e.getMessage());
+        }
     }
 
     //Helper to handle creating new ToDo Task
@@ -129,6 +138,11 @@ public class Tringa {
         System.out.println("  " + t.toString());
         int num = lst.size(); // total number of tasks in list
         System.out.println("Now you have " + num + " tasks in the list.");
+        try {
+            Storage.writeToFile(lst);
+        } catch (IOException e) {
+            System.out.print(e.getMessage());
+        }
     }
 }
 
