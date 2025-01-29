@@ -6,6 +6,11 @@ public class Tringa {
     private static List<Task> lst = new ArrayList<Task>();
 
     public static void main(String[] args) {
+        try {
+            Storage.load();
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
         System.out.println("Hello! I'm Tringa.");
         System.out.println("What can I do for you?");
         Scanner sc = new Scanner(System.in);
@@ -81,7 +86,7 @@ public class Tringa {
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  " + markedTask);
         try {
-            Storage.writeToFile(lst);
+            Storage.save(lst);
         } catch (IOException e) {
             System.out.print(e.getMessage());
         }
@@ -98,7 +103,7 @@ public class Tringa {
         System.out.println("  " + deletedTask.toString());
         System.out.println("Now you have " + num + " tasks in the list.");
         try {
-            Storage.writeToFile(lst);
+            Storage.save(lst);
         } catch (IOException e) {
             System.out.print(e.getMessage());
         }
@@ -139,7 +144,7 @@ public class Tringa {
         int num = lst.size(); // total number of tasks in list
         System.out.println("Now you have " + num + " tasks in the list.");
         try {
-            Storage.writeToFile(lst);
+            Storage.save(lst);
         } catch (IOException e) {
             System.out.print(e.getMessage());
         }
