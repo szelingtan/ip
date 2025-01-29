@@ -2,11 +2,11 @@
 public class Deadline extends Task {
     protected String description;
     protected boolean isDone;
-    private String deadline;
+    private final String deadline;
 
     public Deadline(String description, String deadline) {
         super(description);
-        this.deadline = deadline;
+        this.deadline = Parser.parseDeadline(deadline);
         this.isDone = false;
     }
 
