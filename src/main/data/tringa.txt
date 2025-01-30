@@ -1,2 +1,2 @@
-T|0|[T][ ] [T][ ] sleep
-T|0|[T][ ] eat
+T|1|eat
+T|1|sleep
