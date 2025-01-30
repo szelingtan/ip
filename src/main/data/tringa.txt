@@ -1,3 +1,4 @@
 D | 1 | sleep | Feb 09 2020
-E | 1 | kokokok | Jan 02 2022 | Jan 04 2023
 D | 0 | sl | Jan 09 2020
+T | 1 | hi
+T | 0 | hello by 9pm

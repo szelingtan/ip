@@ -1,3 +1,5 @@
+package tringaa;
+
 public class Ui {
     public void giveWelcome() {
         System.out.println("Hello! I'm Tringa.");
