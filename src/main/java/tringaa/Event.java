@@ -1,3 +1,5 @@
+package tringaa;
+
 // Task: Event
 public class Event extends Task {
     protected boolean isDone;

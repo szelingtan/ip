@@ -1,3 +1,5 @@
+package tringaa;
+
 /**
  * Custom exception for task storage errors.
  */
