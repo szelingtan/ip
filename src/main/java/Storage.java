@@ -1,14 +1,21 @@
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Handles load and save operations for tasks
+ * Handles loading and saving of tasks to a file.
  */
 public class Storage {
     private final String filePath;
 
     /**
-     * Creates a new Storage instance that handles saving/loading from the specified file.
+     * Creates a new Storage instance that loads/saves to the specified file path.
      *
      * @param filePath Path to the storage file
      */
@@ -20,107 +27,54 @@ public class Storage {
      * Loads tasks from the storage file.
      *
      * @return List of tasks read from the file
-     * @throws TaskStorageException if there's an error reading from the file
+     * @throws TaskStorageException if there are errors reading the file
      */
     public List<Task> load() throws TaskStorageException {
-        List<Task> tasks = new ArrayList<>();
         try {
             File file = new File(filePath);
-
-            // If file doesn't exist, return empty list
             if (!file.exists()) {
-                return tasks;
+                return new ArrayList<>();
             }
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (!line.trim().isEmpty()) {
-                        tasks.add(parseTaskFromString(line));
-                    }
+            List<Task> tasks = new ArrayList<>();
+            List<String> lines = Files.readAllLines(Path.of(filePath));
+
+            for (String line : lines) {
+                if (line.trim().isEmpty()) {
+                    continue;
                 }
+                tasks.add(deserializeTask(line));
             }
-            return tasks;
 
+            return tasks;
         } catch (IOException e) {
-            throw new TaskStorageException("Error loading from file: " + e.getMessage());
+            throw new TaskStorageException("Error loading tasks: " + e.getMessage());
         }
     }
 
     /**
-     * Saves the list of tasks to the storage file.
+     * Saves the given list of tasks to the storage file.
      *
      * @param tasks List of tasks to save
-     * @throws TaskStorageException if there's an error writing to the file
+     * @throws TaskStorageException if there are errors writing to the file
      */
     public void save(List<Task> tasks) throws TaskStorageException {
         try {
-            // Create directories if they don't exist
-            File file = new File(filePath);
-
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                for (Task task : tasks) {
-                    writer.write(formatTaskForStorage(task));
-                    writer.newLine();
-                }
+            FileWriter writer = new FileWriter(filePath);
+            for (Task task : tasks) {
+                writer.write(serializeTask(task) + "\n");
             }
+            writer.close();
         } catch (IOException e) {
-            throw new TaskStorageException("Error saving to file: " + e.getMessage());
+            throw new TaskStorageException("Error saving tasks: " + e.getMessage());
         }
     }
 
     /**
-     * Parses a task from its string representation in the storage file.
-     * Format: TYPE|STATUS|DESCRIPTION|[ADDITIONAL_INFO]
-     *
-     * @param line The line from the storage file
-     * @return The parsed Task object
-     * @throws TaskStorageException if the line format is invalid
+     * Converts a task to its string representation for storage.
+     * Format: TYPE | IS_DONE | DESCRIPTION [| ADDITIONAL_DATA]
      */
-    private Task parseTaskFromString(String line) throws TaskStorageException {
-        try {
-            String[] parts = line.split("\\|", -1); // -1 to keep empty strings
-            if (parts.length < 3) {
-                throw new TaskStorageException("Invalid task format in file");
-            }
-            return getTask(parts);
-        } catch (Exception e) {
-            throw new TaskStorageException("Error parsing task: " + e.getMessage());
-        }
-    }
-
-    private static Task getTask(String[] parts) throws TaskStorageException {
-        String type = parts[0];
-        boolean isDone = parts[1].equals("1");
-        String description = parts[2].trim();
-
-        Task task = switch (type) {
-            case "T" -> new ToDos(description);
-            case "D" -> {
-                if (parts.length < 4) throw new TaskStorageException("Deadline task missing due date");
-                yield new Deadline(description, parts[3]);
-            }
-            case "E" -> {
-                if (parts.length < 5) throw new TaskStorageException("Event task missing time information");
-                yield new Event(description, parts[3], parts[4]);
-            }
-            default -> throw new TaskStorageException("Unknown task type: " + type);
-        };
-
-        if (isDone) {
-            task.markDone();
-        }
-        return task;
-    }
-
-    /**
-     * Formats a task for storage in the file.
-     * Format: TYPE|STATUS|DESCRIPTION|[ADDITIONAL_INFO]
-     *
-     * @param task The task to format
-     * @return The formatted string
-     */
-    private String formatTaskForStorage(Task task) {
+    private String serializeTask(Task task) {
         StringBuilder sb = new StringBuilder();
 
         // Add task type
@@ -132,18 +86,57 @@ public class Storage {
             sb.append("E");
         }
 
-        // Add status and description (get raw description without formatting)
-        sb.append("|").append(task.isDone() ? "1" : "0")
-                .append("|").append(task.getDescription());  // Use getDescription() instead of toString()
+        // Add done status and description
+        sb.append(" | ").append(task.isDone() ? "1" : "0");
+        sb.append(" | ").append(task.getDescription());
 
-        // Add additional info for specific task types
+        // Add type-specific data
         if (task instanceof Deadline deadline) {
-            sb.append("|").append(deadline.getDeadline());
+            sb.append(" | ").append(deadline.getDeadline());
         } else if (task instanceof Event event) {
-            sb.append("|").append(event.getStartTime())
-                    .append("|").append(event.getEndTime());
+            sb.append(" | ").append(event.getStart());
+            sb.append(" | ").append(event.getEnd());
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Creates a task from its stored string representation.
+     */
+    private Task deserializeTask(String line) throws TaskStorageException {
+        String[] parts = line.split(" \\| ");
+        if (parts.length < 3) {
+            throw new TaskStorageException("Invalid task format: " + line);
+        }
+
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2];
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+
+        Task task = switch (type) {
+            case "T" -> new ToDos(description);
+            case "D" -> {
+                if (parts.length < 4) {
+                    throw new TaskStorageException("Invalid deadline format: " + line);
+                }
+                LocalDate date = LocalDate.parse(parts[3], inputFormatter);
+                yield new Deadline(description, date.toString());
+            }
+            case "E" -> {
+                if (parts.length < 5) {
+                    throw new TaskStorageException("Invalid event format: " + line);
+                }
+                yield new Event(description, parts[3], parts[4]);
+            }
+            default -> throw new TaskStorageException("Unknown task type: " + type);
+        };
+
+        if (isDone) {
+            task.markDone();
+        }
+
+        return task;
     }
 }

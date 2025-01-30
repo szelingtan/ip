@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -10,7 +9,6 @@ import java.time.format.DateTimeParseException;
  */
 public class Deadline extends Task {
     protected boolean isDone;
-    private final LocalDateTime deadlineDateTime;
     private final LocalDate deadlineDate;
 
     /**
@@ -25,21 +23,7 @@ public class Deadline extends Task {
     public Deadline(String description, String deadline) {
         super(description);
         this.isDone = false;
-
-        String parsedDeadline = Parser.parseDeadline(deadline);
-        try {
-            if (parsedDeadline.contains(":")) {
-                this.deadlineDateTime = LocalDateTime.parse(parsedDeadline,
-                        DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm"));
-                this.deadlineDate = deadlineDateTime.toLocalDate();
-            } else {
-                this.deadlineDate = LocalDate.parse(parsedDeadline,
-                        DateTimeFormatter.ofPattern("MMM dd yyyy"));
-                this.deadlineDateTime = null;
-            }
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Error parsing deadline: " + e.getMessage());
-        }
+        this.deadlineDate = LocalDate.parse(deadline);
     }
 
     /**
@@ -50,31 +34,10 @@ public class Deadline extends Task {
      * @return The formatted deadline string in either "MMM dd yyyy" or "MMM dd yyyy, HH:mm" format
      */
     public String getDeadline() {
-        if (deadlineDateTime != null) {
-            return deadlineDateTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm"));
+        if (deadlineDate != null) {
+            return deadlineDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
         }
-        return deadlineDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
-    }
-
-    /**
-     * Gets the date component of the deadline.
-     * If the deadline includes a time component, returns the date part.
-     * If the deadline is date-only, returns that date.
-     *
-     * @return The deadline date
-     */
-    public LocalDate getDeadlineDate() {
-        return deadlineDate;
-    }
-
-    /**
-     * Gets the full date-time of the deadline, if specified.
-     * Returns null if the deadline was specified as a date only.
-     *
-     * @return The deadline date and time, or null if no time was specified
-     */
-    public LocalDateTime getDeadlineDateTime() {
-        return deadlineDateTime;
+        return "EMPTY DEADLINE";
     }
 
     /**
@@ -86,6 +49,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + "(by:" + getDeadline() + ")";
+        return "[D]" + super.toString() + " (by: " + getDeadline() + ")";
     }
 }

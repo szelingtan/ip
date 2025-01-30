@@ -32,14 +32,6 @@ public class TaskList {
         return new ArrayList<>(tasks);
     }
 
-    /**
-     * Returns the total number of tasks in the list.
-     *
-     * @return The number of tasks
-     */
-    public int size() {
-        return tasks.size();
-    }
 
     /**
      * Lists all tasks in a formatted string.
@@ -82,7 +74,8 @@ public class TaskList {
     public String deleteTask(int index) throws TringaException {
         validateIndex(index);
         Task deletedTask = tasks.remove(index - 1);
-        return String.format("Noted. I've removed this task:\n  %s\nNow you have %d tasks in the list.",
+        return String.format("Noted. I've removed this task:\n  %s\nNow you " +
+                        "have %d tasks in the list.",
                 deletedTask, tasks.size());
     }
 
@@ -98,7 +91,8 @@ public class TaskList {
             throw new TringaException("Cannot add null task");
         }
         tasks.add(task);
-        return String.format("Got it. I've added this task:\n  %s\nNow you have %d tasks in the list.",
+        return String.format("Got it. I've added this task:\n  %s\nNow you " +
+                        "have %d tasks in the list.",
                 task, tasks.size());
     }
 
@@ -111,7 +105,8 @@ public class TaskList {
     private void validateIndex(int index) throws TringaException {
         if (index < 1 || index > tasks.size()) {
             throw new TringaException(
-                    String.format("Invalid task number: %d. Please provide a number between 1 and %d.",
+                    String.format("Invalid task number: %d. Please provide a number" +
+                                    " between 1 and %d.",
                             index, tasks.size()));
         }
     }
