@@ -1,5 +1,9 @@
-public class TringaException extends Exception {
-    public TringaException(String command) {
-        super("ERROR (Please Try Again) - " + command);
+class TringaException extends Exception {
+    public TringaException(String message) {
+        super(message);
+    }
+
+    public TringaException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

@@ -10,6 +10,10 @@ public class Deadline extends Task {
         this.isDone = false;
     }
 
+    public String getDeadline() {
+        return this.deadline;
+    }
+
     @Override
     public String toString() { //added [D]
         return "[D]" + super.toString() + "(by:" + deadline + ")";
