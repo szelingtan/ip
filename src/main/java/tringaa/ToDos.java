@@ -1,3 +1,5 @@
+package tringaa;
+
 // Task: ToDos
 public class ToDos extends Task {
     protected boolean isDone;

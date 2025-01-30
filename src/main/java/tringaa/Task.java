@@ -1,3 +1,5 @@
+package tringaa;
+
 /**
  * Abstract base class for all tasks in the task management system.
  * This class provides the core functionality that all tasks share,
