@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Handles load and save
+ * Handles load and save operations for tasks
  */
 public class Storage {
     private final String filePath;
@@ -71,7 +71,7 @@ public class Storage {
 
     /**
      * Parses a task from its string representation in the storage file.
-     * Format: [TYPE]|[STATUS]|[DESCRIPTION]|[ADDITIONAL_INFO]
+     * Format: TYPE|STATUS|DESCRIPTION|[ADDITIONAL_INFO]
      *
      * @param line The line from the storage file
      * @return The parsed Task object
@@ -79,7 +79,7 @@ public class Storage {
      */
     private Task parseTaskFromString(String line) throws TaskStorageException {
         try {
-            String[] parts = line.split("\\|");
+            String[] parts = line.split("\\|", -1); // -1 to keep empty strings
             if (parts.length < 3) {
                 throw new TaskStorageException("Invalid task format in file");
             }
@@ -92,12 +92,18 @@ public class Storage {
     private static Task getTask(String[] parts) throws TaskStorageException {
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
-        String description = parts[2];
+        String description = parts[2].trim();
 
         Task task = switch (type) {
             case "T" -> new ToDos(description);
-            case "D" -> new Deadline(description, parts[3]);
-            case "E" -> new Event(description, parts[3], parts[4]);
+            case "D" -> {
+                if (parts.length < 4) throw new TaskStorageException("Deadline task missing due date");
+                yield new Deadline(description, parts[3]);
+            }
+            case "E" -> {
+                if (parts.length < 5) throw new TaskStorageException("Event task missing time information");
+                yield new Event(description, parts[3], parts[4]);
+            }
             default -> throw new TaskStorageException("Unknown task type: " + type);
         };
 
@@ -109,7 +115,7 @@ public class Storage {
 
     /**
      * Formats a task for storage in the file.
-     * Format: [TYPE]|[STATUS]|[DESCRIPTION]|[ADDITIONAL_INFO]
+     * Format: TYPE|STATUS|DESCRIPTION|[ADDITIONAL_INFO]
      *
      * @param task The task to format
      * @return The formatted string
@@ -126,13 +132,13 @@ public class Storage {
             sb.append("E");
         }
 
-        // Add status and description
+        // Add status and description (get raw description without formatting)
         sb.append("|").append(task.isDone() ? "1" : "0")
-                .append("|").append(task.toString());
+                .append("|").append(task.getDescription());  // Use getDescription() instead of toString()
 
         // Add additional info for specific task types
-        if (task instanceof Deadline) {
-            sb.append("|").append(((Deadline) task).getDeadline());
+        if (task instanceof Deadline deadline) {
+            sb.append("|").append(deadline.getDeadline());
         } else if (task instanceof Event event) {
             sb.append("|").append(event.getStartTime())
                     .append("|").append(event.getEndTime());
@@ -141,4 +147,3 @@ public class Storage {
         return sb.toString();
     }
 }
-

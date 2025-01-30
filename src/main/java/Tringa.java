@@ -68,9 +68,9 @@ public class Tringa {
 /**
  * Custom exception for task storage errors.
  */
-class TaskStorageException extends TringaException {
+class TaskStorageException extends Exception {
     public TaskStorageException(String message) {
-        super(message);
+        super("TaskStorage Error: " + message);
     }
 
     public TaskStorageException(String message, Throwable cause) {
