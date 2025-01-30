@@ -1,27 +1,26 @@
 // Task: Event
 public class Event extends Task {
-    protected String description;
     protected boolean isDone;
-    private String start;
-    private String end;
+    private final String start;
+    private final String end;
 
-    public Event(String description, String end, String start) {
+    public Event(String description, String start, String end) {
         super(description);
-        this.end = end;
         this.start = start;
+        this.end = end;
         this.isDone = false;
     }
 
-    public String getStartTime() {
+    public String getStart() {
         return this.start;
     }
 
-    public String getEndTime() {
+    public String getEnd() {
         return this.end;
     }
 
     @Override
     public String toString() { // added [E]
-        return "[E]" + super.toString() + "(from:" + start + "to:" + end + ")";
+        return "[E]" + super.toString() + " (from: " + start + " to: " + end + ")";
     }
 }
