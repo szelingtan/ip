@@ -6,18 +6,37 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Handles the parsing and execution of user commands in the Tringa application.
+ * This class processes raw input strings and converts them into appropriate task operations.
+ * It uses regular expressions to validate and extract information from user commands.
+ */
 public class Parser {
+    /** Pattern to match the basic command format: command word followed by arguments */
     private static final Pattern BASIC_COMMAND_FORMAT =
             Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+    /** Pattern to match todo task arguments: just the description */
     private static final Pattern TODO_ARGS_FORMAT =
             Pattern.compile("(?<description>.+)");
+    /** Pattern to match deadline task arguments: description and deadline date */
     private static final Pattern DEADLINE_ARGS_FORMAT =
             Pattern.compile("(?<description>[^/]+)/by(?<deadline>.+)");
+    /** Pattern to match event task arguments: description, start date, and end date */
     private static final Pattern EVENT_ARGS_FORMAT =
             Pattern.compile("(?<description>[^/]+)/from(?<startDate>[^/]+)/to(?<endDate>.+)");
+    /** Pattern to match index arguments for mark and delete commands */
     private static final Pattern INDEX_ARGS_FORMAT =
             Pattern.compile("(?<targetIndex>\\d+)");
 
+    /**
+     * Executes a command based on the user input.
+     *
+     * @param input The raw input string from the user
+     * @param tasks The TaskList object containing all tasks
+     * @param storage The Storage object for saving task data
+     * @return A response message indicating the result of the command execution
+     * @throws TringaException if the command is invalid or execution fails
+     */
     public static String executeCommand(String input, TaskList tasks, Storage storage)
             throws TringaException {
         input = input.trim();
@@ -42,6 +61,15 @@ public class Parser {
         };
     }
 
+    /**
+     * Prepares and executes a deadline task creation command.
+     *
+     * @param args The arguments string containing description and deadline
+     * @param tasks The TaskList to add the deadline to
+     * @param storage The Storage object for saving the task
+     * @return A response message indicating the result
+     * @throws TringaException if the deadline format is invalid or saving fails
+     */
     private static String prepareDeadline(String args, TaskList tasks, Storage storage)
             throws TringaException {
         if (args.trim().isEmpty()) {
@@ -84,6 +112,15 @@ public class Parser {
         }
     }
 
+    /**
+     * Prepares and executes an event task creation command.
+     *
+     * @param args The arguments string containing description and event dates
+     * @param tasks The TaskList to add the event to
+     * @param storage The Storage object for saving the task
+     * @return A response message indicating the result
+     * @throws TringaException if the event format is invalid or saving fails
+     */
     private static String prepareEvent(String args, TaskList tasks, Storage storage)
             throws TringaException {
         final Matcher matcher = EVENT_ARGS_FORMAT.matcher(args);
@@ -122,6 +159,15 @@ public class Parser {
         }
     }
 
+    /**
+     * Prepares and executes a mark-as-done command.
+     *
+     * @param args The arguments string containing the task index
+     * @param tasks The TaskList containing the task to mark
+     * @param storage The Storage object for saving the changes
+     * @return A response message indicating the result
+     * @throws TringaException if the index is invalid or saving fails
+     */
     private static String prepareMark(String args, TaskList tasks, Storage storage)
             throws TringaException {
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(args);
@@ -141,6 +187,15 @@ public class Parser {
         }
     }
 
+    /**
+     * Prepares and executes a delete task command.
+     *
+     * @param args The arguments string containing the task index
+     * @param tasks The TaskList containing the task to delete
+     * @param storage The Storage object for saving the changes
+     * @return A response message indicating the result
+     * @throws TringaException if the index is invalid or saving fails
+     */
     private static String prepareDelete(String args, TaskList tasks, Storage storage)
             throws TringaException {
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(args);
@@ -160,6 +215,15 @@ public class Parser {
         }
     }
 
+    /**
+     * Prepares and executes a todo task creation command.
+     *
+     * @param args The arguments string containing the todo description
+     * @param tasks The TaskList to add the todo to
+     * @param storage The Storage object for saving the task
+     * @return A response message indicating the result
+     * @throws TringaException if the todo format is invalid or saving fails
+     */
     private static String prepareTodo(String args, TaskList tasks, Storage storage)
             throws TringaException {
         final Matcher matcher = TODO_ARGS_FORMAT.matcher(args);
