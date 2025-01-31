@@ -17,6 +17,8 @@ public class Parser {
             Pattern.compile("(?<description>[^/]+)/from(?<startDate>[^/]+)/to(?<endDate>.+)");
     private static final Pattern INDEX_ARGS_FORMAT =
             Pattern.compile("(?<targetIndex>\\d+)");
+    private static final Pattern FIND_ARGS_FORMAT =
+            Pattern.compile("(?<keyword>.+)");
 
     public static String executeCommand(String input, TaskList tasks, Storage storage)
             throws TringaException {
@@ -38,6 +40,7 @@ public class Parser {
             case "deadline" -> prepareDeadline(arguments, tasks, storage);
             case "event" -> prepareEvent(arguments, tasks, storage);
             case "bye" -> "Bye. Hope to see you again soon!";
+            case "find" -> prepareFindTask(arguments, tasks);
             default -> throw new TringaException("Unknown command: " + commandWord);
         };
     }
@@ -175,5 +178,21 @@ public class Parser {
         } catch (TaskStorageException e) {
             throw new TringaException("Error saving task: " + e.getMessage());
         }
+    }
+
+    private static String prepareFindTask(String args, TaskList tasks)
+        throws TringaException {
+        if (args.trim().isEmpty()) {
+            throw new TringaException("Find command cannot be empty");
+        }
+        final Matcher matcher = FIND_ARGS_FORMAT.matcher(args);
+        if (!matcher.matches()) {
+            throw new TringaException("Invalid find command. Usage: find KEYWORD");
+        }
+        String keyword = matcher.group("keyword").trim();
+        if (keyword.isEmpty()) {
+            throw new TringaException("find KEYWORD cannot be empty.");
+        }
+        return tasks.findTasks(keyword);
     }
 }
