@@ -113,4 +113,29 @@ public class TaskList {
         }
     }
 
+    public String findTasks(String keyword) throws TringaException {
+        List<Integer> matchingIndices = new ArrayList<>();
+        String search = keyword.toLowerCase().trim();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.getDescription().toLowerCase().contains(search)) {
+                matchingIndices.add(i);
+            }
+        }
+        if (matchingIndices.isEmpty()) {
+            return "No matching tasks found in current list.";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Here are the matching tasks in your " + "list\n");
+            int resultNumber = 1;
+            for (int originalIndex : matchingIndices) {
+                Task task = tasks.get(originalIndex);
+                sb.append(String.format("%d.%s\n", resultNumber, task));
+                resultNumber++;
+            }
+            return sb.toString().trim();
+        }
+
+    }
+
 }
