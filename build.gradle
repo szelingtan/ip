@@ -4,6 +4,8 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
+mainClassName = 'tringaa.Tringa'
+
 repositories {
     mavenCentral()
 }
@@ -32,8 +34,9 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "Tringa"
     archiveClassifier = null
+    archiveFileName = 'Tringa.jar'
 }
 
 run{
