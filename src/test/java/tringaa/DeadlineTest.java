@@ -1,14 +1,17 @@
 package tringaa;
 
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.time.format.DateTimeParseException;
+
+import org.junit.jupiter.api.Test;
 
 class DeadlineTest {
     private Deadline deadline;
 
     @Test
-    void getDeadline_ValidDate_ReturnsFormattedDate() {
+    void testGetDeadlineWithValidDate() {
         // Arrange
         deadline = new Deadline("Submit assignment", "2024-01-31");
         String expected = "Jan 31 2024";
@@ -21,7 +24,7 @@ class DeadlineTest {
     }
 
     @Test
-    void constructor_InvalidDateFormat_ThrowsException() {
+    void testConstructorWithInvalidDateFormat() {
         // Arrange & Act & Assert
         assertThrows(DateTimeParseException.class,
                 () -> new Deadline("Submit assignment", "31-01-2024"),
@@ -29,7 +32,7 @@ class DeadlineTest {
     }
 
     @Test
-    void constructor_NullDate_ThrowsException() {
+    void testConstructorWithNullDate() {
         // Arrange & Act & Assert
         assertThrows(NullPointerException.class,
                 () -> new Deadline("Submit assignment", null),
@@ -37,7 +40,7 @@ class DeadlineTest {
     }
 
     @Test
-    void getDeadline_FutureDates_ReturnsFormattedDate() {
+    void testGetDeadlineWithFutureDates() {
         // Arrange
         deadline = new Deadline("Future task", "2025-12-25");
         String expected = "Dec 25 2025";

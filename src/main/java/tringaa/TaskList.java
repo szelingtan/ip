@@ -76,8 +76,8 @@ public class TaskList {
     public String deleteTask(int index) throws TringaException {
         validateIndex(index);
         Task deletedTask = tasks.remove(index - 1);
-        return String.format("Noted. I've removed this task:\n  %s\nNow you " +
-                        "have %d tasks in the list.",
+        return String.format("Noted. I've removed this task:\n  %s\nNow you "
+                        + "have %d tasks in the list.",
                 deletedTask, tasks.size());
     }
 
@@ -93,8 +93,8 @@ public class TaskList {
             throw new TringaException("Cannot add null task");
         }
         tasks.add(task);
-        return String.format("Got it. I've added this task:\n  %s\nNow you " +
-                        "have %d tasks in the list.",
+        return String.format("Got it. I've added this task:\n  %s\nNow you "
+                        + "have %d tasks in the list.",
                 task, tasks.size());
     }
 
@@ -107,11 +107,20 @@ public class TaskList {
     private void validateIndex(int index) throws TringaException {
         if (index < 1 || index > tasks.size()) {
             throw new TringaException(
-                    String.format("Invalid task number: %d. Please provide a number" +
-                                    " between 1 and %d.",
+                    String.format("Invalid task number: %d. Please provide a number"
+                                    + " between 1 and %d.",
                             index, tasks.size()));
         }
     }
+
+    /**
+     * Searches for tasks that contain the specified keyword in their description.
+     * The search is case-insensitive and ignores leading/trailing whitespace.
+     *
+     * @param keyword The search term to look for in task descriptions
+     * @return A formatted string containing the list of matching tasks, or a message if no tasks are found
+     * @throws TringaException If an error occurs during the search process
+     */
 
     public String findTasks(String keyword) throws TringaException {
         List<Integer> matchingIndices = new ArrayList<>();

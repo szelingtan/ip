@@ -1,13 +1,15 @@
 package tringaa;
 
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 class EventTest {
     private Event event;
 
     @Test
-    void getStart_ValidStartTime_ReturnsStartTime() {
+    void testGetStartWithValidStartTime() {
         // Arrange
         event = new Event("Team Meeting", "2pm", "4pm");
         String expected = "2pm";
@@ -20,7 +22,7 @@ class EventTest {
     }
 
     @Test
-    void getStart_EmptyStartTime_ReturnsEmptyString() {
+    void testGetStartWithEmptyStartTime() {
         // Arrange
         event = new Event("Team Meeting", "", "4pm");
 
@@ -32,7 +34,7 @@ class EventTest {
     }
 
     @Test
-    void getStart_NullStartTime_ReturnsNull() {
+    void testGetStartWithNullStartTime() {
         // Arrange
         event = new Event("Team Meeting", null, "4pm");
 
@@ -44,7 +46,7 @@ class EventTest {
     }
 
     @Test
-    void getStart_WithSpaces_ReturnsOriginalString() {
+    void testGetStartWithSpaces() {
         // Arrange
         event = new Event("Team Meeting", "2 pm", "4 pm");
         String expected = "2 pm";
