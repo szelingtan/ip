@@ -43,7 +43,7 @@ public class Ui {
      *
      * @param response The message to be displayed
      */
-    public void showResponse(String response) {
-        System.out.println(response);
+    public String showResponse(String response) {
+        return response;
     }
 }
