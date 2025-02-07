@@ -23,11 +23,15 @@ public class MainWindow extends AnchorPane {
     private Tringa tringa;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/cinna.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/poc.png"));
+    private Image tringaImage = new Image(this.getClass().getResourceAsStream("/images/poc.png"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+
+        dialogContainer.getChildren().add(
+                DialogBox.getDukeDialog("Hello! How can I help you today?", tringaImage)
+        );
     }
 
     /** Injects the Tringa instance */
@@ -45,7 +49,7 @@ public class MainWindow extends AnchorPane {
         String response = tringa.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
+                DialogBox.getDukeDialog(response, tringaImage)
         );
         userInput.clear();
     }
