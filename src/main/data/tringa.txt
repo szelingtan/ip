@@ -1,13 +1,1 @@
-D | 1 | sleep | Feb 09 2020
-T | 1 | hello by 9pm
-<<<<<<< HEAD
-=======
-T | 0 | sleep now
->>>>>>> branch-Level-9
-T | 0 | sleep
-<<<<<<< HEAD
-T | 0 | sleep
-=======
-D | 0 | sleep | Feb 09 2022
-E | 0 | hi | Jan 09 2022 | Sep 01 2023
->>>>>>> branch-A-CodingStandard
+T | 1 | sleep

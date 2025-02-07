@@ -40,14 +40,14 @@ public class Tringa {
 
                 // Check for exit command
                 if (command.equals("bye")) {
-                    ui.showResponse("Bye. Hope to see you again soon!");
+                    getResponse("Bye. Hope to see you again soon!");
                     isRunning = false;
                     continue;
                 }
 
                 // Process the command
                 String response = Parser.executeCommand(command, tasks, storage);
-                ui.showResponse(response);
+                getResponse(response);
 
             } catch (TringaException e) {
                 ui.showError(e.getMessage());
@@ -64,7 +64,21 @@ public class Tringa {
         Tringa tringa = new Tringa("./src/main/data/tringa.txt");
         tringa.run();
     }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        try {
+            if (input.equals("bye")) {
+                return"Bye. Hope to see you again soon!";
+            }
+            String response = Parser.executeCommand(input, tasks, storage);
+            return response;
+
+        } catch (TringaException e) {
+            return e.getMessage();
+        }
+    }
+
 }
-
-
-
