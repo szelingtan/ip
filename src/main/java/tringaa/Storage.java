@@ -80,7 +80,7 @@ public class Storage {
         StringBuilder sb = new StringBuilder();
 
         // Add task type
-        if (task instanceof ToDos) {
+        if (task instanceof ToDo) {
             sb.append("T");
         } else if (task instanceof Deadline) {
             sb.append("D");
@@ -118,7 +118,7 @@ public class Storage {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
         Task task = switch (type) {
-            case "T" -> new ToDos(description);
+            case "T" -> new ToDo(description);
             case "D" -> {
                 if (parts.length < 4) {
                     throw new TaskStorageException("Invalid deadline format: " + line);

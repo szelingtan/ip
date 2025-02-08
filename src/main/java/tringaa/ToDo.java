@@ -4,7 +4,7 @@ package tringaa;
  * Represents a To-Do task in the Tringa task management system.
  * This class extends the basic Task class and adds functionality specific to To-Do items.
  */
-public class ToDos extends Task {
+public class ToDo extends Task {
     protected boolean isDone;
 
     /**
@@ -13,7 +13,7 @@ public class ToDos extends Task {
      *
      * @param description The description of the To-Do task
      */
-    public ToDos(String description) {
+    public ToDo(String description) {
         super(description);
         this.isDone = false;
     }

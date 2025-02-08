@@ -235,7 +235,7 @@ public class Parser {
         }
 
         try {
-            Task todo = new ToDos(matcher.group("description").trim());
+            Task todo = new ToDo(matcher.group("description").trim());
             String response = tasks.addTask(todo);
             storage.save(tasks.getTasks());
             return response;
