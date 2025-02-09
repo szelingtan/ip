@@ -29,6 +29,9 @@ public class Parser {
             Pattern.compile("(?<targetIndex>\\d+)");
     private static final Pattern FIND_ARGS_FORMAT =
             Pattern.compile("(?<keyword>.+)");
+    /** Pattern to match upcoming tasks command: must be exactly "tasks" */
+    private static final Pattern UPCOMING_TASKS_FORMAT =
+            Pattern.compile("^upcoming tasks$", Pattern.CASE_INSENSITIVE);
 
     /**
      * Executes a command based on the user input.
@@ -64,6 +67,7 @@ public class Parser {
             case "event" -> prepareEvent(arguments, tasks, storage);
             case "bye" -> "Bye. Hope to see you again soon!";
             case "find" -> prepareFindTask(arguments, tasks);
+            case "upcoming" -> prepareUpcomingTasks(input, tasks);
             default -> throw new TringaException("Unknown command: " + commandWord);
         };
     }
@@ -113,8 +117,14 @@ public class Parser {
             }
             String dateStr = matcher.group("deadline").trim();
             Task deadlineTask = new Deadline(description, dateStr);
+
+            // Add task to current task list
             String response = tasks.addTask(deadlineTask);
+            // Schedule tasks to be reminded at 9AM the day before event starts
+            Reminder.scheduleReminder(deadlineTask);
+            // Save new task list in file
             storage.save(tasks.getTasks());
+
             return response;
         } catch (DateTimeParseException e) {
             throw new TringaException("Invalid date format. Use: yyyy-MM-dd (e.g., 2023-02-22)");
@@ -162,10 +172,15 @@ public class Parser {
             String endDateStr = matcher.group("endDate").trim();
             LocalDate endDate = LocalDate.parse(endDateStr);
             String formattedEndDate = endDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+            Task eventTask = new Event(description, formattedStartDate, formattedEndDate);
 
-            Task event = new Event(description, formattedStartDate, formattedEndDate);
-            String response = tasks.addTask(event);
+            // Add task to current task list
+            String response = tasks.addTask(eventTask);
+            // Schedule tasks to be reminded at 9AM the day before event starts
+            Reminder.scheduleReminder(eventTask);
+            // Save new task list in file
             storage.save(tasks.getTasks());
+
             return response;
         } catch (DateTimeParseException e) {
             throw new TringaException("Invalid date format. Use: yyyy-MM-dd (e.g., 2023-02-22)");
@@ -270,6 +285,9 @@ public class Parser {
 
     private static String prepareFindTask(String args, TaskList tasks)
         throws TringaException {
+        assert args != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+
         if (args.trim().isEmpty()) {
             throw new TringaException("Find command cannot be empty");
         }
@@ -283,4 +301,27 @@ public class Parser {
         }
         return tasks.findTasks(keyword);
     }
+    /**
+     * Executes the command to list upcoming tasks.
+     * Only accepts the exact phrase "upcoming tasks".
+     *
+     * @param input The input string which must be "upcoming tasks"
+     * @param tasks The TaskList to search for upcoming tasks
+     * @return A formatted string containing the list of upcoming tasks
+     * @throws TringaException if the command format is invalid
+     */
+    private static String prepareUpcomingTasks(String input, TaskList tasks)
+            throws TringaException {
+        assert input != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+
+        if (!UPCOMING_TASKS_FORMAT.matcher(input.trim()).matches()) {
+            throw new TringaException("""
+            Invalid command format.
+            Usage: upcoming tasks
+            """);
+        }
+        return tasks.listUpcomingTasks();
+    }
+
 }
