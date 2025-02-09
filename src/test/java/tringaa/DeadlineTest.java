@@ -26,16 +26,16 @@ class DeadlineTest {
     @Test
     void testConstructorWithInvalidDateFormat() {
         // Arrange & Act & Assert
-        assertThrows(DateTimeParseException.class,
-                () -> new Deadline("Submit assignment", "31-01-2024"),
+        assertThrows(DateTimeParseException.class, () ->
+                        new Deadline("Submit assignment", "31-01-2024"),
                 "Constructor should throw DateTimeParseException for invalid date format");
     }
 
     @Test
     void testConstructorWithNullDate() {
         // Arrange & Act & Assert
-        assertThrows(NullPointerException.class,
-                () -> new Deadline("Submit assignment", null),
+        assertThrows(NullPointerException.class, () ->
+                        new Deadline("Submit assignment", null),
                 "Constructor should throw NullPointerException for null date");
     }
 

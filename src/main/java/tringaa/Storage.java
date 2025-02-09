@@ -118,21 +118,21 @@ public class Storage {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
         Task task = switch (type) {
-            case "T" -> new ToDo(description);
-            case "D" -> {
-                if (parts.length < 4) {
-                    throw new TaskStorageException("Invalid deadline format: " + line);
-                }
-                LocalDate date = LocalDate.parse(parts[3], inputFormatter);
-                yield new Deadline(description, date.toString());
+        case "T" -> new ToDo(description);
+        case "D" -> {
+            if (parts.length < 4) {
+                throw new TaskStorageException("Invalid deadline format: " + line);
             }
-            case "E" -> {
-                if (parts.length < 5) {
-                    throw new TaskStorageException("Invalid event format: " + line);
-                }
-                yield new Event(description, parts[3], parts[4]);
+            LocalDate date = LocalDate.parse(parts[3], inputFormatter);
+            yield new Deadline(description, date.toString());
+        }
+        case "E" -> {
+            if (parts.length < 5) {
+                throw new TaskStorageException("Invalid event format: " + line);
             }
-            default -> throw new TaskStorageException("Unknown task type: " + type);
+            yield new Event(description, parts[3], parts[4]);
+        }
+        default -> throw new TaskStorageException("Unknown task type: " + type);
         };
 
         if (isDone) {
