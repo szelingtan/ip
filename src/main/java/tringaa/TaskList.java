@@ -1,5 +1,7 @@
 package tringaa;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,7 +146,70 @@ public class TaskList {
             }
             return sb.toString().trim();
         }
+    }
 
+    /**
+     * Lists all upcoming tasks (events and deadlines that haven't passed).
+     * Tasks are considered upcoming if they are:
+     * - Not marked as done
+     * - Due date/event date is in the future
+     *
+     * @return A formatted string containing the list of upcoming tasks
+     */
+    public String listUpcomingTasks() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+        LocalDate today = LocalDate.now();
+        List<Task> upcomingTasks = new ArrayList<>();
+
+        for (Task task : tasks) {
+            if (task.isDone()) {
+                continue;
+            }
+
+            LocalDate taskDate = null;
+            if (task instanceof Deadline deadline) {
+                taskDate = LocalDate.parse(deadline.getDeadline(), formatter);
+            } else if (task instanceof Event event) {
+                taskDate = LocalDate.parse(event.getStart(), formatter);
+            }
+
+            if (taskDate != null && !taskDate.isBefore(today)) {
+                upcomingTasks.add(task);
+            }
+        }
+
+        if (upcomingTasks.isEmpty()) {
+            return "No upcoming tasks!";
+        }
+
+        // Sort tasks by date
+        upcomingTasks.sort((t1, t2) -> {
+            LocalDate date1 = getTaskDate(t1);
+            LocalDate date2 = getTaskDate(t2);
+            return date1.compareTo(date2);
+        });
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Here are your upcoming tasks:\n");
+        for (int i = 0; i < upcomingTasks.size(); i++) {
+            Task task = upcomingTasks.get(i);
+            sb.append(i + 1).append(". ").append(task.toString()).append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Helper method to get the date from a task
+     */
+    private LocalDate getTaskDate(Task task) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+        if (task instanceof Deadline deadline) {
+            return LocalDate.parse(deadline.getDeadline(), formatter);
+        } else if (task instanceof Event event) {
+            return LocalDate.parse(event.getStart(), formatter);
+        }
+        return null;
     }
 
 }
