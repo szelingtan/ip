@@ -41,6 +41,10 @@ public class Parser {
      */
     public static String executeCommand(String input, TaskList tasks, Storage storage)
             throws TringaException {
+        assert input != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+        assert storage != null : "Storage cannot be null";
+
         input = input.trim();
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(input);
 
@@ -75,6 +79,10 @@ public class Parser {
      */
     private static String prepareDeadline(String args, TaskList tasks, Storage storage)
             throws TringaException {
+        assert args != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+        assert storage != null : "Storage cannot be null";
+
         if (args.trim().isEmpty()) {
             throw new TringaException("""
                 Description cannot be empty.
@@ -126,6 +134,10 @@ public class Parser {
      */
     private static String prepareEvent(String args, TaskList tasks, Storage storage)
             throws TringaException {
+        assert args != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+        assert storage != null : "Storage cannot be null";
+
         final Matcher matcher = EVENT_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("""
@@ -173,6 +185,10 @@ public class Parser {
      */
     private static String prepareMark(String args, TaskList tasks, Storage storage)
             throws TringaException {
+        assert args != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+        assert storage != null : "Storage cannot be null";
+
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("Invalid mark command. Format: mark INDEX");
@@ -201,6 +217,10 @@ public class Parser {
      */
     private static String prepareDelete(String args, TaskList tasks, Storage storage)
             throws TringaException {
+        assert args != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+        assert storage != null : "Storage cannot be null";
+
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("Invalid delete command. Format: delete INDEX");
@@ -229,6 +249,10 @@ public class Parser {
      */
     private static String prepareTodo(String args, TaskList tasks, Storage storage)
             throws TringaException {
+        assert args != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+        assert storage != null : "Storage cannot be null";
+
         final Matcher matcher = TODO_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("Invalid todo command. Format: todo DESCRIPTION");
