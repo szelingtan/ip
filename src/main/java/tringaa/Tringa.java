@@ -71,7 +71,7 @@ public class Tringa {
     public String getResponse(String input) {
         try {
             if (input.equals("bye")) {
-                return"Bye. Hope to see you again soon!";
+                return "Bye. Hope to see you again soon!";
             }
             String response = Parser.executeCommand(input, tasks, storage);
             return response;

@@ -59,6 +59,7 @@ public class Parser {
         final String arguments = matcher.group("arguments").trim();
 
         return switch (commandWord) {
+<<<<<<< HEAD
             case "list" -> tasks.listTasks();
             case "mark" -> prepareMark(arguments, tasks, storage);
             case "delete" -> prepareDelete(arguments, tasks, storage);
@@ -69,6 +70,17 @@ public class Parser {
             case "find" -> prepareFindTask(arguments, tasks);
             case "upcoming" -> prepareUpcomingTasks(input, tasks);
             default -> throw new TringaException("Unknown command: " + commandWord);
+=======
+        case "list" -> tasks.listTasks();
+        case "mark" -> prepareMark(arguments, tasks, storage);
+        case "delete" -> prepareDelete(arguments, tasks, storage);
+        case "todo" -> prepareTodo(arguments, tasks, storage);
+        case "deadline" -> prepareDeadline(arguments, tasks, storage);
+        case "event" -> prepareEvent(arguments, tasks, storage);
+        case "bye" -> "Bye. Hope to see you again soon!";
+        case "find" -> prepareFindTask(arguments, tasks);
+        default -> throw new TringaException("Unknown command: " + commandWord);
+>>>>>>> f8d75eebd8a0822448ea52775e98de3bd67d0cdf
         };
     }
 
@@ -284,10 +296,14 @@ public class Parser {
     }
 
     private static String prepareFindTask(String args, TaskList tasks)
+<<<<<<< HEAD
         throws TringaException {
         assert args != null : "Input string cannot be null";
         assert tasks != null : "TaskList cannot be null";
 
+=======
+            throws TringaException {
+>>>>>>> f8d75eebd8a0822448ea52775e98de3bd67d0cdf
         if (args.trim().isEmpty()) {
             throw new TringaException("Find command cannot be empty");
         }
