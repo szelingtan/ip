@@ -93,12 +93,4 @@ public class Reminder {
 
         alert.show();
     }
-
-    /**
-     * Shuts down the reminder system by canceling all scheduled reminders.
-     * This method should be called when closing the application to clean up resources.
-     */
-    public static void shutdown() {
-        timer.cancel();
-    }
 }
