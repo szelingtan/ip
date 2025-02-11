@@ -63,7 +63,7 @@ public class Parser {
             case "deadline" -> prepareDeadline(arguments, tasks, storage);
             case "event" -> prepareEvent(arguments, tasks, storage);
             case "bye" -> "Bye. Hope to see you again soon!";
-            case "find" -> prepareFindTask(arguments, tasks);
+            case "find" -> prepareFind(arguments, tasks);
             default -> throw new TringaException("Unknown command: " + commandWord);
         };
     }
@@ -268,7 +268,15 @@ public class Parser {
         }
     }
 
-    private static String prepareFindTask(String args, TaskList tasks)
+    /**
+     * Prepares and executes a todo task creation command.
+     *
+     * @param args The find keyword string
+     * @param tasks The full list of tasks
+     * @return String representation of the list of tasks with find keyword
+     * @throws TringaException if the todo format is invalid or saving fails
+     */
+    private static String prepareFind(String args, TaskList tasks)
         throws TringaException {
         if (args.trim().isEmpty()) {
             throw new TringaException("Find command cannot be empty");
