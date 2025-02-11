@@ -66,7 +66,7 @@ public class Parser {
             case "deadline" -> prepareDeadline(arguments, tasks, storage);
             case "event" -> prepareEvent(arguments, tasks, storage);
             case "bye" -> "Bye. Hope to see you again soon!";
-            case "find" -> prepareFindTask(arguments, tasks);
+            case "find" -> prepareFind(arguments, tasks);
             case "upcoming" -> prepareUpcomingTasks(input, tasks);
             default -> throw new TringaException("Unknown command: " + commandWord);
         };
@@ -283,7 +283,15 @@ public class Parser {
         }
     }
 
-    private static String prepareFindTask(String args, TaskList tasks)
+    /**
+     * Prepares and executes a find task command.
+     *
+     * @param args The arguments string containing the find keyword
+     * @param tasks The TaskList of all current tasks in the list
+     * @return A formatted string containing the list tasks which match the keyword
+     * @throws TringaException if the todo format is invalid or saving fails
+     */
+    private static String prepareFind(String args, TaskList tasks)
             throws TringaException {
         assert args != null : "Input string cannot be null";
         assert tasks != null : "TaskList cannot be null";
