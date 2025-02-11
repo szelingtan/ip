@@ -75,6 +75,8 @@ public class Storage {
     /**
      * Converts a task to its string representation for storage.
      * Format: TYPE | IS_DONE | DESCRIPTION [| ADDITIONAL_DATA]
+     *
+     * @param task Input task taken in to serialise
      */
     private String serializeTask(Task task) {
         StringBuilder sb = new StringBuilder();
