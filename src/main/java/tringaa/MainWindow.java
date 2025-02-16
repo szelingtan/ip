@@ -1,5 +1,7 @@
 package tringaa;
 
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -9,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 /**
  * Controller for the main GUI.
@@ -65,15 +66,19 @@ public class MainWindow extends AnchorPane {
         userInput.clear();
 
         // Check if response was to "bye" command
-        if (input.trim().equalsIgnoreCase("bye")) {
+        if (input.equalsIgnoreCase("bye")) {
             handleExit();
         }
     }
 
     private void handleExit() {
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.close();
-        Platform.exit();
-        System.exit(0);
+        TimerTask timerTask = new TimerTask() {
+            public void run() {
+                Platform.exit();
+                System.exit(0);
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(timerTask, 1000);
     }
 }
