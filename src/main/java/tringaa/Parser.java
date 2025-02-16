@@ -71,7 +71,7 @@ public class Parser {
         case "bye" -> "Bye. Hope to see you again soon!";
         case "find" -> prepareFind(arguments, tasks);
         case "upcoming" -> prepareUpcomingTasks(input, tasks);
-        default -> throw new TringaException("Unknown command: " + commandWord);
+        default -> throw new UnknownCommandException("Unknown command: " + commandWord);
         };
     }
 
