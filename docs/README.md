@@ -33,7 +33,7 @@ management journey and is _free_ for all to use!
 The sections below provide more detailed descriptions of each feature.
 
 ## Task Creation
-1. `todo`
+`todo`
 ```
 Users can add a todo task to the list in the format 
 "todo DESCRIPTION" 
@@ -42,7 +42,7 @@ If the above format is not followed, the bot will prompt the user
 to add a todo task in the correct format.
 ```
 
-3. `deadline`
+`deadline`
 ```
 Users can add a deadline task to the list in the format 
 "deadline DESCRIPTION /by DATE"
@@ -51,7 +51,7 @@ If the above format is not followed, the bot will prompt the user
 to add a deadline task in the correct format.
 ```
 
-4. `event`
+`event`
 ```
 Users can add an event task to the list in the format 
 "event DESCRIPTION /from DATE /to DATE"
@@ -60,7 +60,7 @@ If the above format is not followed, the bot will prompt the user
 to add an event task in the correct format.
 ```
 ### Task Search 
-1. `find`
+`find`
 ```
 Users can find a task from the list by searching in the format
 "find KEYWORD" 
@@ -73,7 +73,7 @@ will output "No matching tasks found in current list."
 ```
 
 ### Task Deletion
-1. `delete`
+`delete`
 ```
 Users can delete a task from the list by deleting in the format
 "delete INDEX" where INDEX refers to the index of the task to be
@@ -86,7 +86,7 @@ If there is no matching index found in the list, the bot will prompt
 the user to input an appropriate index.
 ```
 ### Task Mark 
-1. `mark`
+`mark`
 ```
 Users can mark a task in the list as done by marking in the format
 "mark INDEX" wheer INDEX refers to the index of the task to be 
@@ -109,7 +109,7 @@ If there are no tasks in the current list, the bot will output
 "No tasks in your list yet!"
 ```
 
-2. `upcoming tasks`
+`upcoming tasks`
 
 ```
 Users can view upcoming tasks in their list by inputting
