@@ -1,12 +1,10 @@
 package tringaa;
 
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 /**
  * Handles the parsing and execution of user commands in the Tringa application.
@@ -15,7 +13,6 @@ import java.util.regex.Pattern;
  * Regular expression patterns used in this class are based on examples from:
  * @see <a href="https://www.w3schools.com/java/java_regex.asp">W3Schools Java Regex Tutorial</a>
  */
-
 
 public class Parser {
     /** Pattern to match the basic command format: command word followed by arguments */
@@ -35,7 +32,9 @@ public class Parser {
             Pattern.compile("(?<targetIndex>\\d+)");
     private static final Pattern FIND_ARGS_FORMAT =
             Pattern.compile("(?<keyword>.+)");
-
+    /** Pattern to match upcoming tasks command: must be exactly "tasks" */
+    private static final Pattern UPCOMING_TASKS_FORMAT =
+            Pattern.compile("^upcoming tasks$", Pattern.CASE_INSENSITIVE);
 
     /**
      * Executes a command based on the user input.
@@ -52,33 +51,29 @@ public class Parser {
         assert tasks != null : "TaskList cannot be null";
         assert storage != null : "Storage cannot be null";
 
-
         input = input.trim();
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(input);
-
 
         if (!matcher.matches()) {
             throw new TringaException("Invalid command format. Refer to documentation.");
         }
 
-
         final String commandWord = matcher.group("commandWord").toLowerCase();
         final String arguments = matcher.group("arguments").trim();
 
-
         return switch (commandWord) {
-            case "list" -> tasks.listTasks();
-            case "mark" -> prepareMark(arguments, tasks, storage);
-            case "delete" -> prepareDelete(arguments, tasks, storage);
-            case "todo" -> prepareTodo(arguments, tasks, storage);
-            case "deadline" -> prepareDeadline(arguments, tasks, storage);
-            case "event" -> prepareEvent(arguments, tasks, storage);
-            case "bye" -> "Bye. Hope to see you again soon!";
-            case "find" -> prepareFindTask(arguments, tasks);
-            default -> throw new TringaException("Unknown command: " + commandWord);
+        case "list" -> tasks.listTasks();
+        case "mark" -> prepareMark(arguments, tasks, storage);
+        case "delete" -> prepareDelete(arguments, tasks, storage);
+        case "todo" -> prepareTodo(arguments, tasks, storage);
+        case "deadline" -> prepareDeadline(arguments, tasks, storage);
+        case "event" -> prepareEvent(arguments, tasks, storage);
+        case "bye" -> "Bye. Hope to see you again soon!";
+        case "find" -> prepareFind(arguments, tasks);
+        case "upcoming" -> prepareUpcomingTasks(input, tasks);
+        default -> throw new TringaException("Unknown command: " + commandWord);
         };
     }
-
 
     /**
      * Prepares and executes a deadline task creation command.
@@ -95,32 +90,28 @@ public class Parser {
         assert tasks != null : "TaskList cannot be null";
         assert storage != null : "Storage cannot be null";
 
-
         if (args.trim().isEmpty()) {
             throw new TringaException("""
-               Description cannot be empty.
-               Format: deadline DESCRIPTION /by DATE
-               """);
+                Description cannot be empty.
+                Format: deadline DESCRIPTION /by DATE
+                """);
         }
-
 
         if (args.trim().startsWith("/by")) {
             throw new TringaException("""
-               Missing task description.
-               Format: deadline DESCRIPTION /by DATE
-               """);
+                Missing task description.
+                Format: deadline DESCRIPTION /by DATE
+                """);
         }
-
 
         final Matcher matcher = DEADLINE_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("""
-               Invalid deadline command.
-               Format: deadline DESCRIPTION /by DATE
-               Date format: yyyy-MM-dd (e.g., 2025-02-20)
-               """);
+                Invalid deadline command.
+                Format: deadline DESCRIPTION /by DATE
+                Date format: yyyy-MM-dd (e.g., 2023-02-22)
+                """);
         }
-
 
         try {
             String description = matcher.group("description").trim();
@@ -129,16 +120,21 @@ public class Parser {
             }
             String dateStr = matcher.group("deadline").trim();
             Task deadlineTask = new Deadline(description, dateStr);
+
+            // Add task to current task list
             String response = tasks.addTask(deadlineTask);
+            // Schedule tasks to be reminded at 9AM the day before event starts
+            Reminder.scheduleReminder(deadlineTask);
+            // Save new task list in file
             storage.save(tasks.getTasks());
+
             return response;
         } catch (DateTimeParseException e) {
-            throw new TringaException("Invalid date format. Use: yyyy-MM-dd (e.g., 2025-02-20)");
+            throw new TringaException("Invalid date format. Use: yyyy-MM-dd (e.g., 2023-02-22)");
         } catch (TaskStorageException e) {
             throw new TringaException("Error saving task: " + e.getMessage());
         }
     }
-
 
     /**
      * Prepares and executes an event task creation command.
@@ -155,16 +151,14 @@ public class Parser {
         assert tasks != null : "TaskList cannot be null";
         assert storage != null : "Storage cannot be null";
 
-
         final Matcher matcher = EVENT_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("""
-               Invalid event command.
-               Format: event DESCRIPTION /from DATE /to DATE
-               Date format: yyyy-MM-dd (e.g., 2025-02-20)
-               """);
+                Invalid event command.
+                Format: event DESCRIPTION /from DATE /to DATE
+                Date format: yyyy-MM-dd (e.g., 2023-02-22)
+                """);
         }
-
 
         try {
             String description = matcher.group("description").trim();
@@ -172,30 +166,31 @@ public class Parser {
                 throw new TringaException("Task description cannot be empty.");
             }
 
-
             // Process start date
             String startDateStr = matcher.group("startDate").trim();
             LocalDate startDate = LocalDate.parse(startDateStr);
             String formattedStartDate = startDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
 
-
             // Process end date
             String endDateStr = matcher.group("endDate").trim();
             LocalDate endDate = LocalDate.parse(endDateStr);
             String formattedEndDate = endDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+            Task eventTask = new Event(description, formattedStartDate, formattedEndDate);
 
-
-            Task event = new Event(description, formattedStartDate, formattedEndDate);
-            String response = tasks.addTask(event);
+            // Add task to current task list
+            String response = tasks.addTask(eventTask);
+            // Schedule tasks to be reminded at 9AM the day before event starts
+            Reminder.scheduleReminder(eventTask);
+            // Save new task list in file
             storage.save(tasks.getTasks());
+
             return response;
         } catch (DateTimeParseException e) {
-            throw new TringaException("Invalid date format. Use: yyyy-MM-dd (e.g., 2025-02-20)");
+            throw new TringaException("Invalid date format. Use: yyyy-MM-dd (e.g., 2023-02-22)");
         } catch (TaskStorageException e) {
             throw new TringaException("Error saving task: " + e.getMessage());
         }
     }
-
 
     /**
      * Prepares and executes a mark-as-done command.
@@ -212,12 +207,10 @@ public class Parser {
         assert tasks != null : "TaskList cannot be null";
         assert storage != null : "Storage cannot be null";
 
-
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("Invalid mark command. Format: mark INDEX");
         }
-
 
         try {
             int index = Integer.parseInt(matcher.group("targetIndex"));
@@ -230,7 +223,6 @@ public class Parser {
             throw new TringaException("Error saving changes: " + e.getMessage());
         }
     }
-
 
     /**
      * Prepares and executes a delete task command.
@@ -247,12 +239,10 @@ public class Parser {
         assert tasks != null : "TaskList cannot be null";
         assert storage != null : "Storage cannot be null";
 
-
         final Matcher matcher = INDEX_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("Invalid delete command. Format: delete INDEX");
         }
-
 
         try {
             int index = Integer.parseInt(matcher.group("targetIndex"));
@@ -265,7 +255,6 @@ public class Parser {
             throw new TringaException("Error saving changes: " + e.getMessage());
         }
     }
-
 
     /**
      * Prepares and executes a todo task creation command.
@@ -282,12 +271,10 @@ public class Parser {
         assert tasks != null : "TaskList cannot be null";
         assert storage != null : "Storage cannot be null";
 
-
         final Matcher matcher = TODO_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new TringaException("Invalid todo command. Format: todo DESCRIPTION");
         }
-
 
         try {
             Task todo = new ToDo(matcher.group("description").trim());
@@ -299,9 +286,19 @@ public class Parser {
         }
     }
 
-
-    private static String prepareFindTask(String args, TaskList tasks)
+    /**
+     * Prepares and executes a find task command.
+     *
+     * @param args The arguments string containing the find keyword
+     * @param tasks The TaskList of all current tasks in the list
+     * @return A formatted string containing the list tasks which match the keyword
+     * @throws TringaException if the todo format is invalid or saving fails
+     */
+    private static String prepareFind(String args, TaskList tasks)
             throws TringaException {
+        assert args != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+
         if (args.trim().isEmpty()) {
             throw new TringaException("Find command cannot be empty");
         }
@@ -315,4 +312,27 @@ public class Parser {
         }
         return tasks.findTasks(keyword);
     }
+    /**
+     * Executes the command to list upcoming tasks.
+     * Only accepts the exact phrase "upcoming tasks".
+     *
+     * @param input The input string which must be "upcoming tasks"
+     * @param tasks The TaskList to search for upcoming tasks
+     * @return A formatted string containing the list of upcoming tasks
+     * @throws TringaException if the command format is invalid
+     */
+    private static String prepareUpcomingTasks(String input, TaskList tasks)
+            throws TringaException {
+        assert input != null : "Input string cannot be null";
+        assert tasks != null : "TaskList cannot be null";
+
+        if (!UPCOMING_TASKS_FORMAT.matcher(input.trim()).matches()) {
+            throw new TringaException("""
+            Invalid command format.
+            Usage: upcoming tasks
+            """);
+        }
+        return tasks.listUpcomingTasks();
+    }
+
 }
