@@ -75,7 +75,6 @@ public class Tringa {
             }
             String response = Parser.executeCommand(input, tasks, storage);
             return response;
-
         } catch (TringaException e) {
             return e.getMessage();
         }
