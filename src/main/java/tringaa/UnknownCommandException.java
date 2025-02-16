@@ -2,7 +2,7 @@ package tringaa;
 
 public class UnknownCommandException extends TringaException {
     public UnknownCommandException(String message) {
-        super(message);
+        super("Unknown Command: " + message);
     }
 }
 
