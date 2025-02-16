@@ -2,9 +2,14 @@
 
 ![Demo](../docs/Ui.png)
 
-Welcome to Tringa Bot 
 
-## Adding deadlines
+- [x] Do you have a **busy** schedule?
+- [x] Do you want a **better** way to manage your schedule?
+
+**Introducing...**  `Tringa`, a bot that _simplifies_ your task 
+management journey and is _free_ for all to use!
+
+## Fea
 
 // Describe the action and its outcome.
 
