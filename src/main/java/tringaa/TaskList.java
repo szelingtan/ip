@@ -104,13 +104,17 @@ public class TaskList {
      * Validates that an index is within the valid range for the task list.
      *
      * @param index One-based index to validate
-     * @throws TringaException if index is invalid
+     * @throws TringaException if index is invalid or list is empty
      */
     private void validateIndex(int index) throws TringaException {
+        if (tasks.isEmpty()) {
+            throw new TringaException("No tasks in list!");
+        }
+
         if (index < 1 || index > tasks.size()) {
             throw new TringaException(
                     String.format("Invalid task number: %d. Please provide a number"
-                                    + " between 1 and %d.",
+                                    + " that is between 1 and %d.",
                             index, tasks.size()));
         }
     }

@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 
 /**
  * Handles the parsing and execution of user commands in the Tringa application.
@@ -309,5 +310,4 @@ public class Parser {
         }
         return tasks.listUpcomingTasks();
     }
-
 }

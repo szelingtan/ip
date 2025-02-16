@@ -9,54 +9,118 @@
 **Introducing...**  `Tringa`, a bot that _simplifies_ your task 
 management journey and is _free_ for all to use!
 
-## Fea
+## Feature Use Summary
+1. _Find_ tasks with a keyword 
+2. Add _todo_ tasks 
+3. Add _deadline_ tasks (tasks with a deadline)
+4. Add _event_ (tasks between a stipulated period)
+5. _List_ task listings and completion status
+6. _Mark_ tasks as done
+7. _Delete_ unwanted tasks
+8. View _upcoming tasks_ 
 
-// Describe the action and its outcome.
+### Feature Format Summary 
+1. find KEYWORD
+2. todo DESCRIPTION
+3. deadline DESCRIPTION /by DATE
+4. event DESCRIPTION /from DATE /to DATE
+5. list
+6. mark INDEX
+7. delete INDEX
+8. upcoming tasks
 
-// Give examples of usage
+# Feature Details
+The sections below provide more detailed descriptions of each feature.
 
-Example: `keyword (optional arguments)`
+## Task Creation
+1. `todo`
+```
+Users can add a todo task to the list in the format 
+"todo DESCRIPTION" 
 
-// A description of the expected outcome goes here
+If the above format is not followed, the bot will prompt the user 
+to add a todo task in the correct format.
+```
+
+3. `deadline`
+```
+Users can add a deadline task to the list in the format 
+"deadline DESCRIPTION /by DATE"
+
+If the above format is not followed, the bot will prompt the user 
+to add a deadline task in the correct format.
+```
+
+4. `event`
+```
+Users can add an event task to the list in the format 
+"event DESCRIPTION /from DATE /to DATE"
+
+If the above format is not followed, the bot will prompt the user 
+to add an event task in the correct format.
+```
+### Task Search 
+1. `find`
+```
+Users can find a task from the list by searching in the format
+"find KEYWORD" 
+
+The bot will return all tasks in the current list that contain
+the specified keyword. 
+
+If there are no matching tasks found in the current list, the bot 
+will output "No matching tasks found in current list."
+```
+
+### Task Deletion
+1. `delete`
+```
+Users can delete a task from the list by deleting in the format
+"delete INDEX" where INDEX refers to the index of the task to be
+deleted in the current list.
+
+If the above format is not followed, the bot will prompt the user 
+to delete in the correct format.
+
+If there is no matching index found in the list, the bot will prompt
+the user to input an appropriate index.
+```
+### Task Mark 
+1. `mark`
+```
+Users can mark a task in the list as done by marking in the format
+"mark INDEX" wheer INDEX refers to the index of the task to be 
+marked in the current list
+
+If the above format is not followed, the bot will prompt the user 
+to delete in the correct format.
+
+If there is no matching index found in the list, the bot will prompt
+the user to input an appropriate index.
+```
+### Task View
+1. `list`
 
 ```
-expected output
-```# Tringa User Guide
+Users can view their tasks details and completion status in their 
+current list by inputting "view". 
 
-// Update the title above to match the actual product name
-
-// Product screenshot goes here
-
-// Product intro goes here
-
-## Adding deadlines
-
-// Describe the action and its outcome.
-
-// Give examples of usage
-
-Example: `keyword (optional arguments)`
-
-// A description of the expected outcome goes here
-
-```
-expected output
+If there are no tasks in the current list, the bot will output 
+"No tasks in your list yet!"
 ```
 
-## Feature ABC
+2. `upcoming tasks`
 
-// Feature details
+```
+Users can view upcoming tasks in their list by inputting
+"upcoming tasks"
 
+Upcoming tasks includes all deadline tasks which have not been 
+marked as done and the deadline of the task has not passed yet
 
-## Feature XYZ
+Upcoming tasks also include all event tasks which have not been
+marked as done and the event has not started
 
-// Feature details
-
-## Feature ABC
-
-// Feature details
-
-
-## Feature XYZ
-
-// Feature details
+If there are no valid upcoming tasks, the bot will output 
+"No upcoming tasks!"
+```
