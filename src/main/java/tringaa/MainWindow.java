@@ -33,8 +33,6 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-
-
         dialogContainer.getChildren().add(
                 DialogBox.getTringaDialog("Hello, I'm Tringa! How can I help you today?",
                         tringaImage)
