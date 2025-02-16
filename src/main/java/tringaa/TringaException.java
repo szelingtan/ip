@@ -1,6 +1,6 @@
 package tringaa;
 
-class TringaException extends Exception {
+public class TringaException extends Exception {
     public TringaException(String message) {
         super("TringaBot Error: " + message);
     }

@@ -1,5 +1,6 @@
 package tringaa;
 
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -20,28 +21,36 @@ public class MainWindow extends AnchorPane {
     @FXML
     private Button sendButton;
 
+
     private Tringa tringa;
+
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/cinna.png"));
     private Image tringaImage = new Image(this.getClass().getResourceAsStream("/images/poc.png"));
+
 
     /** Injects the program */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
+
         dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog("Hello! How can I help you today?", tringaImage)
+                DialogBox.getTringaDialog("Hello, I'm Tringa! How can I help you today?",
+                        tringaImage)
         );
     }
+
 
     /** Injects the Tringa instance */
     public void setTringa(Tringa t) {
         tringa = t;
     }
 
+
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
+     * Creates two dialog boxes, one echoing user input and the other containing Tringa's reply and
+     * then appends them to
      * the dialog container. Clears the user input after processing.
      */
     @FXML
@@ -50,9 +59,8 @@ public class MainWindow extends AnchorPane {
         String response = tringa.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, tringaImage)
+                DialogBox.getTringaDialog(response, tringaImage)
         );
         userInput.clear();
     }
 }
-
