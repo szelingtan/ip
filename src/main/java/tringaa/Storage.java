@@ -117,30 +117,39 @@ public class Storage {
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
         String description = parts[2];
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
-        Task task = switch (type) {
-        case "T" -> new ToDo(description);
-        case "D" -> {
-            if (parts.length < 4) {
-                throw new TaskStorageException("Invalid deadline format: " + line);
-            }
-            LocalDate date = LocalDate.parse(parts[3], inputFormatter);
-            yield new Deadline(description, date.toString());
-        }
-        case "E" -> {
-            if (parts.length < 5) {
-                throw new TaskStorageException("Invalid event format: " + line);
-            }
-            yield new Event(description, parts[3], parts[4]);
-        }
-        default -> throw new TaskStorageException("Unknown task type: " + type);
-        };
+        Task task = createTaskByType(type, description, parts);
 
         if (isDone) {
             task.markDone();
         }
 
         return task;
+    }
+
+    /**
+     * Creates the appropriate task type based on the type identifier and data.
+     */
+    private Task createTaskByType(String type, String description, String[] parts)
+            throws TaskStorageException {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+
+        return switch (type) {
+            case "T" -> new ToDo(description);
+            case "D" -> {
+                if (parts.length < 4) {
+                    throw new TaskStorageException("Invalid deadline format: " + String.join(" | ", parts));
+                }
+                LocalDate date = LocalDate.parse(parts[3], inputFormatter);
+                yield new Deadline(description, date.toString());
+            }
+            case "E" -> {
+                if (parts.length < 5) {
+                    throw new TaskStorageException("Invalid event format: " + String.join(" | ", parts));
+                }
+                yield new Event(description, parts[3], parts[4]);
+            }
+            default -> throw new TaskStorageException("Unknown task type: " + type);
+        };
     }
 }

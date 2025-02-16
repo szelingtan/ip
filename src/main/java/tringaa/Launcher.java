@@ -4,7 +4,7 @@ import javafx.application.Application;
 
 /**
  * A launcher class that serves as the entry point for the JavaFX application.
- * This class delegates the application launch to the Main class using JavaFX's
+ * This class delegates the application launch to the Main class using JavaFX
  * Application.launch() method.
  */
 public class Launcher {

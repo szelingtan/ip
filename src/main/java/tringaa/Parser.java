@@ -47,9 +47,6 @@ public class Parser {
      */
     public static String executeCommand(String input, TaskList tasks, Storage storage)
             throws TringaException {
-        assert input != null : "Input string cannot be null";
-        assert tasks != null : "TaskList cannot be null";
-        assert storage != null : "Storage cannot be null";
 
         input = input.trim();
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(input);
@@ -87,24 +84,6 @@ public class Parser {
      */
     private static String prepareDeadline(String args, TaskList tasks, Storage storage)
             throws TringaException {
-        assert args != null : "Input string cannot be null";
-        assert tasks != null : "TaskList cannot be null";
-        assert storage != null : "Storage cannot be null";
-
-        if (args.trim().isEmpty()) {
-            throw new InvalidCommandException("""
-                Description cannot be empty.
-                Format: deadline DESCRIPTION /by DATE
-                """);
-        }
-
-        if (args.trim().startsWith("/by")) {
-            throw new InvalidCommandException("""
-                Missing task description.
-                Format: deadline DESCRIPTION /by DATE
-                """);
-        }
-
         final Matcher matcher = DEADLINE_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new InvalidCommandException("""
@@ -113,22 +92,18 @@ public class Parser {
                 Date format: yyyy-MM-dd (e.g., 2023-02-22)
                 """);
         }
-
+        if (args.trim().startsWith("/by")) {
+            throw new InvalidCommandException("""
+                    Description cannot be empty.
+                    """);
+        }
         try {
             String description = matcher.group("description").trim();
-            if (description.isEmpty()) {
-                throw new TringaException("Task description cannot be empty.");
-            }
             String dateStr = matcher.group("deadline").trim();
             Task deadlineTask = new Deadline(description, dateStr);
-
-            // Add task to current task list
             String response = tasks.addTask(deadlineTask);
-            // Schedule tasks to be reminded at 9AM the day before event starts
             Reminder.scheduleReminder(deadlineTask);
-            // Save new task list in file
             storage.save(tasks.getTasks());
-
             return response;
         } catch (DateTimeParseException e) {
             throw new InvalidCommandException("Invalid date format. Use: yyyy-MM-dd (e.g., " +
@@ -150,43 +125,23 @@ public class Parser {
      */
     private static String prepareEvent(String args, TaskList tasks, Storage storage)
             throws TringaException {
-        assert args != null : "Input string cannot be null";
-        assert tasks != null : "TaskList cannot be null";
-        assert storage != null : "Storage cannot be null";
-
         final Matcher matcher = EVENT_ARGS_FORMAT.matcher(args);
         if (!matcher.matches()) {
             throw new InvalidCommandException("""
-                Invalid event command.
-                Format: event DESCRIPTION /from DATE /to DATE
-                Date format: yyyy-MM-dd (e.g., 2023-02-22)
-                """);
+            Invalid event command.
+            Format: event DESCRIPTION /from DATE /to DATE
+            Date format: yyyy-MM-dd (e.g., 2023-02-22)
+            """);
         }
-
         try {
             String description = matcher.group("description").trim();
-            if (description.isEmpty()) {
-                throw new InvalidCommandException("Task description cannot be empty.");
-            }
+            String[] formattedDates = formatDates(matcher.group("startDate").trim(),
+                    matcher.group("endDate").trim());
 
-            // Process start date
-            String startDateStr = matcher.group("startDate").trim();
-            LocalDate startDate = LocalDate.parse(startDateStr);
-            String formattedStartDate = startDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
-
-            // Process end date
-            String endDateStr = matcher.group("endDate").trim();
-            LocalDate endDate = LocalDate.parse(endDateStr);
-            String formattedEndDate = endDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
-            Task eventTask = new Event(description, formattedStartDate, formattedEndDate);
-
-            // Add task to current task list
+            Task eventTask = new Event(description, formattedDates[0], formattedDates[1]);
             String response = tasks.addTask(eventTask);
-            // Schedule tasks to be reminded at 9AM the day before event starts
             Reminder.scheduleReminder(eventTask);
-            // Save new task list in file
             storage.save(tasks.getTasks());
-
             return response;
         } catch (DateTimeParseException e) {
             throw new InvalidCommandException("Invalid date format. Use: yyyy-MM-dd (e.g., " +
@@ -194,6 +149,26 @@ public class Parser {
         } catch (TaskStorageException e) {
             throw new TringaException("Error saving task: " + e.getMessage());
         }
+    }
+
+    /**
+     * Formats the start and end dates from yyyy-MM-dd to MMM dd yyyy.
+     *
+     * @param startDateStr The start date string in yyyy-MM-dd format
+     * @param endDateStr The end date string in yyyy-MM-dd format
+     * @return Array containing formatted start and end dates
+     * @throws DateTimeParseException if date format is invalid
+     */
+    private static String[] formatDates(String startDateStr, String endDateStr)
+            throws DateTimeParseException {
+        LocalDate startDate = LocalDate.parse(startDateStr);
+        LocalDate endDate = LocalDate.parse(endDateStr);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+        return new String[]{
+                startDate.format(formatter),
+                endDate.format(formatter)
+        };
     }
 
     /**
@@ -318,7 +293,6 @@ public class Parser {
     }
     /**
      * Executes the command to list upcoming tasks.
-     * Only accepts the exact phrase "upcoming tasks".
      *
      * @param input The input string which must be "upcoming tasks"
      * @param tasks The TaskList to search for upcoming tasks

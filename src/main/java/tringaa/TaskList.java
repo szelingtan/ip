@@ -121,10 +121,9 @@ public class TaskList {
      *
      * @param keyword The search term to look for in task descriptions
      * @return A formatted string containing the list of matching tasks, or a message if no tasks are found
-     * @throws TringaException If an error occurs during the search process
      */
 
-    public String findTasks(String keyword) throws TringaException {
+    public String findTasks(String keyword) {
         List<Integer> matchingIndices = new ArrayList<>();
         String search = keyword.toLowerCase().trim();
         for (int i = 0; i < tasks.size(); i++) {
@@ -157,6 +156,34 @@ public class TaskList {
      * @return A formatted string containing the list of upcoming tasks
      */
     public String listUpcomingTasks() {
+        List<Task> upcomingTasks = getUpcomingTasks();
+
+        if (upcomingTasks.isEmpty()) {
+            return "No upcoming tasks!";
+        }
+
+        // Sort tasks by date
+        upcomingTasks.sort((t1, t2) -> {
+            LocalDate date1 = getTaskDate(t1);
+            LocalDate date2 = getTaskDate(t2);
+            return date1.compareTo(date2);
+        });
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Here are your upcoming tasks:\n");
+        for (int i = 0; i < upcomingTasks.size(); i++) {
+            Task task = upcomingTasks.get(i);
+            sb.append(i + 1).append(". ").append(task.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Gets a list of all upcoming tasks that aren't done and are due in the future.
+     *
+     * @return List of upcoming tasks
+     */
+    private List<Task> getUpcomingTasks() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
         LocalDate today = LocalDate.now();
         List<Task> upcomingTasks = new ArrayList<>();
@@ -178,25 +205,7 @@ public class TaskList {
             }
         }
 
-        if (upcomingTasks.isEmpty()) {
-            return "No upcoming tasks!";
-        }
-
-        // Sort tasks by date
-        upcomingTasks.sort((t1, t2) -> {
-            LocalDate date1 = getTaskDate(t1);
-            LocalDate date2 = getTaskDate(t2);
-            return date1.compareTo(date2);
-        });
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("Here are your upcoming tasks:\n");
-        for (int i = 0; i < upcomingTasks.size(); i++) {
-            Task task = upcomingTasks.get(i);
-            sb.append(i + 1).append(". ").append(task.toString()).append("\n");
-        }
-
-        return sb.toString();
+        return upcomingTasks;
     }
 
     /**
