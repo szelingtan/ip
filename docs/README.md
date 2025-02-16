@@ -1,4 +1,22 @@
-# Duke User Guide
+# Tringa User Guide
+
+![Demo](../docs/Ui.png)
+
+Welcome to Tringa Bot 
+
+## Adding deadlines
+
+// Describe the action and its outcome.
+
+// Give examples of usage
+
+Example: `keyword (optional arguments)`
+
+// A description of the expected outcome goes here
+
+```
+expected output
+```# Tringa User Guide
 
 // Update the title above to match the actual product name
 
@@ -19,6 +37,15 @@ Example: `keyword (optional arguments)`
 ```
 expected output
 ```
+
+## Feature ABC
+
+// Feature details
+
+
+## Feature XYZ
+
+// Feature details
 
 ## Feature ABC
 
