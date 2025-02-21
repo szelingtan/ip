@@ -1,0 +1,4 @@
+T | 0 | sleep
+D | 0 | sleep | Sep 02 2022
+D | 0 | finish homework | Jan 09 2022
+E | 0 | finish homework | Jan 09 2022 | Jan 12 2022

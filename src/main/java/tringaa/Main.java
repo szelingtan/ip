@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Tringa tringa = new Tringa("./src/main/data/tringa.txt");
+    private Tringa tringa = new Tringa();
 
     @Override
     public void start(Stage stage) {

@@ -1,10 +1,10 @@
 package tringaa;
 
+import java.util.List;
+
 import tringaa.exceptions.TaskStorageException;
 import tringaa.exceptions.TringaException;
 import tringaa.tasks.Task;
-
-import java.util.List;
 
 /**
  * Main class for the Tringa chatbot.
@@ -16,12 +16,10 @@ public class Tringa {
 
     /**
      * Initializes the Tringa task management system.
-     *
-     * @param filePath Path to the storage file
      */
-    public Tringa(String filePath) {
+    public Tringa() {
         ui = new Ui();
-        storage = new Storage(filePath);
+        storage = new Storage();
         try {
             List<Task> loadedTasks = storage.load();
             tasks = new TaskList(loadedTasks);
@@ -65,8 +63,7 @@ public class Tringa {
      * @param args Command line inputs
      */
     public static void main(String[] args) {
-        Tringa tringa = new Tringa("./src/main/data/tringa.txt");
-        tringa.run();
+        new Tringa().run();
     }
 
     /**

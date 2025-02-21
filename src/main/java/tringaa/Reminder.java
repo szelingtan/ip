@@ -1,17 +1,17 @@
 package tringaa;
 
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import tringaa.tasks.Deadline;
-import tringaa.tasks.Event;
-import tringaa.tasks.Task;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import tringaa.tasks.Deadline;
+import tringaa.tasks.Event;
+import tringaa.tasks.Task;
 
 /**
  * A utility class that manages automatic reminders for tasks.

@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import tringaa.exceptions.InvalidCommandException;
 import tringaa.exceptions.TaskStorageException;
 import tringaa.exceptions.TringaException;
@@ -53,6 +54,7 @@ public class Parser {
      * @return A response message indicating the result of the command execution
      * @throws TringaException if the command is invalid or execution fails
      */
+    @SuppressWarnings("checkstyle:Indentation")
     public static String executeCommand(String input, TaskList tasks, Storage storage)
             throws TringaException {
 
@@ -67,16 +69,16 @@ public class Parser {
         final String arguments = matcher.group("arguments").trim();
 
         return switch (commandWord) {
-        case "list" -> tasks.listTasks();
-        case "mark" -> prepareMark(arguments, tasks, storage);
-        case "delete" -> prepareDelete(arguments, tasks, storage);
-        case "todo" -> prepareTodo(arguments, tasks, storage);
-        case "deadline" -> prepareDeadline(arguments, tasks, storage);
-        case "event" -> prepareEvent(arguments, tasks, storage);
-        case "bye" -> "Bye. Hope to see you again soon!";
-        case "find" -> prepareFind(arguments, tasks);
-        case "upcoming" -> prepareUpcomingTasks(input, tasks);
-        default -> throw new UnknownCommandException(commandWord);
+            case "list" -> tasks.listTasks();
+            case "mark" -> prepareMark(arguments, tasks, storage);
+            case "delete" -> prepareDelete(arguments, tasks, storage);
+            case "todo" -> prepareTodo(arguments, tasks, storage);
+            case "deadline" -> prepareDeadline(arguments, tasks, storage);
+            case "event" -> prepareEvent(arguments, tasks, storage);
+            case "bye" -> "Bye. Hope to see you again soon!";
+            case "find" -> prepareFind(arguments, tasks);
+            case "upcoming" -> prepareUpcomingTasks(input, tasks);
+            default -> throw new UnknownCommandException(commandWord);
         };
     }
 
@@ -114,8 +116,8 @@ public class Parser {
             storage.save(tasks.getTasks());
             return response;
         } catch (DateTimeParseException e) {
-            throw new InvalidCommandException("Invalid date format. Use: yyyy-MM-dd (e.g., " +
-                    "2023-02-22)");
+            throw new InvalidCommandException("Invalid date format. Use: yyyy-MM-dd (e.g., "
+                    + "2023-02-22)");
         } catch (TaskStorageException e) {
             throw new TringaException("Error saving task: " + e.getMessage());
         }
@@ -152,8 +154,8 @@ public class Parser {
             storage.save(tasks.getTasks());
             return response;
         } catch (DateTimeParseException e) {
-            throw new InvalidCommandException("Invalid date format. Use: yyyy-MM-dd (e.g., " +
-                    "2023-02-22)");
+            throw new InvalidCommandException("Invalid date format. Use: yyyy-MM-dd (e.g., "
+                    + "2023-02-22)");
         } catch (TaskStorageException e) {
             throw new TringaException("Error saving task: " + e.getMessage());
         }
@@ -313,7 +315,7 @@ public class Parser {
         assert tasks != null : "TaskList cannot be null";
 
         if (!UPCOMING_TASKS_FORMAT.matcher(input.trim()).matches()) {
-            throw new InvalidCommandException("Invalid command format. Usage: upcoming task");
+            throw new InvalidCommandException("Invalid command format. Usage: upcoming tasks");
         }
         return tasks.listUpcomingTasks();
     }

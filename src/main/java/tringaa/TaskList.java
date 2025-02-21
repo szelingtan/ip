@@ -1,14 +1,14 @@
 package tringaa;
 
-import tringaa.exceptions.TringaException;
-import tringaa.tasks.Deadline;
-import tringaa.tasks.Event;
-import tringaa.tasks.Task;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import tringaa.exceptions.TringaException;
+import tringaa.tasks.Deadline;
+import tringaa.tasks.Event;
+import tringaa.tasks.Task;
 
 /**
  * Manages a list of tasks and operations on them.

@@ -1,51 +1,51 @@
 package tringaa;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import tringaa.exceptions.TaskStorageException;
 import tringaa.tasks.Deadline;
 import tringaa.tasks.Event;
 import tringaa.tasks.Task;
 import tringaa.tasks.ToDo;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Handles loading and saving of tasks to a file.
  */
 public class Storage {
-    private final String filePath;
-
     /**
-     * Creates a new Storage instance that loads/saves to the specified file path.
-     *
-     * @param filePath Path to the storage file
+     * The file path where tasks are stored, located in the data directory.
      */
-    public Storage(String filePath) {
-        this.filePath = filePath;
-    }
+    private static final Path FILE_PATH = Paths.get("data", "tringa.txt");
 
     /**
-     * Loads tasks from the storage file.
+     * Loads tasks from the storage file. If the storage directory or file doesn't exist,
+     * they will be created automatically.
      *
-     * @return List of tasks read from the file
-     * @throws TaskStorageException if there are errors reading the file
+     * @return List of Task objects read from the storage file. Returns an empty list if
+     *         the file is empty or newly created.
+     * @throws TaskStorageException if there are any errors during file operations or task
+     *         deserialization.
      */
     public List<Task> load() throws TaskStorageException {
         try {
-            File file = new File(filePath);
-            if (!file.exists()) {
+            // Create data directory if it doesn't exist
+            Files.createDirectories(FILE_PATH.getParent());
+            // If file doesn't exist, create it and return empty list
+            if (!Files.exists(FILE_PATH)) {
+                Files.createFile(FILE_PATH);
                 return new ArrayList<>();
             }
-
             List<Task> tasks = new ArrayList<>();
-            List<String> lines = Files.readAllLines(Path.of(filePath));
+            List<String> lines = Files.readAllLines(FILE_PATH);
 
             for (String line : lines) {
                 if (line.trim().isEmpty()) {
@@ -53,12 +53,13 @@ public class Storage {
                 }
                 tasks.add(deserializeTask(line));
             }
-
             return tasks;
         } catch (IOException e) {
             throw new TaskStorageException("Error loading tasks: " + e.getMessage());
         }
     }
+
+
 
     /**
      * Saves the given list of tasks to the storage file.
@@ -68,7 +69,7 @@ public class Storage {
      */
     public void save(List<Task> tasks) throws TaskStorageException {
         try {
-            FileWriter writer = new FileWriter(filePath);
+            FileWriter writer = new FileWriter(FILE_PATH.toFile());
             for (Task task : tasks) {
                 writer.write(serializeTask(task) + "\n");
             }
@@ -136,6 +137,7 @@ public class Storage {
     /**
      * Creates the appropriate task type based on the type identifier and data.
      */
+    @SuppressWarnings("checkstyle:Indentation")
     private Task createTaskByType(String type, String description, String[] parts)
             throws TaskStorageException {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
