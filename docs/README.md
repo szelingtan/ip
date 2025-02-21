@@ -40,6 +40,7 @@ Users can add a todo task to the list in the format:
 `todo DESCRIPTION`
 
 Example: `todo finish homework`
+
 Expected Output: 
 ```
 Got it. I've added this task:
@@ -59,6 +60,7 @@ Users can add a deadline task to the list in the format:
 **Date Format: yyyy-mm-dd**
 
 Example: `deadline finish homework /by 2022-01-09`
+
 Expected Output:
 ```
 Got it. I've added this task:
@@ -79,6 +81,7 @@ Users can add an event task to the list in the format
 **Date Format: yyyy-mm-dd**
 
 Example: `event finish homework /from 2022-01-09 /to 2022-01-12`
+
 Expected Output:
 ```
 Got it. I've added this task:
@@ -124,6 +127,9 @@ to delete in the correct format.
 >If there is no matching index found in the list, the bot will prompt
 the user to input an appropriate index.
 
+>If there are no tasks in the list, the bot will return
+> "TringaBot Error: No tasks in list!"
+
 ---
 
 ## Task Mark 
@@ -143,13 +149,28 @@ to delete in the correct format.
 >If there is no matching index found in the list, the bot will prompt
 the user to input an appropriate index.
 
+>If there are no tasks in the list, the bot will return 
+> "TringaBot Error: No tasks in list!"
+
 ---
 
 ## Task View
+Example TaskList Containing: 
+1. [T][] finish homework
+2. [E][] workshop (from: May 03 2025 to: May 09 2025)
+
+---
 `list`
 
 Users can view their tasks details and completion status in their current
 list byt inputting `list`
+
+Expected Output (Refer to above list):
+```
+Here are the tasks in your list
+1. [T][] finish homework
+2. [E][] workshop (from: May 03 2025 to: May 09 2025)
+```
 
 >If there are no tasks in the current list, the bot will output 
 "No tasks in your list yet!"
@@ -166,6 +187,12 @@ marked as done and the deadline of the task has not passed yet.**
 
 **Upcoming tasks also include all event tasks which have not been
 marked as done and the event has not started.**
+
+Expected Output (Refer to above list):
+```
+Here are your upcoming tasks:
+1. [E][] workshop (from: May 03 2025 to: May 09 2025)
+```
 
 >If there are no valid upcoming tasks, the bot will output 
 "No upcoming tasks!"
