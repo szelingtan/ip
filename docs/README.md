@@ -95,6 +95,11 @@ to add an event task in the correct format.
 ---
 
 ## Task Search 
+Example TaskList Containing:
+1. [T][] finish homework
+2. [E][] workshop (from: May 03 2025 to: May 09 2025)
+---
+
 `find`
 
 Users can find a task from the list by searching in the format
@@ -105,6 +110,12 @@ the specified keyword.**
 
 Example: `find homework`
 
+Expected Output (Refer to above list):
+```
+Here are the matching tasks in your list:
+1. [T][] finish homework
+```
+
 >If there are no matching tasks found in the current list, the bot 
 will output "No matching tasks found in current list."
 
@@ -114,6 +125,7 @@ will output "No matching tasks found in current list."
 Example TaskList Containing:
 1. [T][] finish homework
 2. [E][] workshop (from: May 03 2025 to: May 09 2025)
+
 ---
 
 `delete`
@@ -148,6 +160,7 @@ the user to input an appropriate index.
 Example TaskList Containing:
 1. [T][] finish homework
 2. [E][] workshop (from: May 03 2025 to: May 09 2025)
+
 ---
 `mark`
 
