@@ -1,6 +1,6 @@
 # Tringa User Guide
 
-![Demo](../docs/Ui.png)
+![](Ui.png)
 
 
 * Do you have a **busy** schedule?
