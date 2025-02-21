@@ -43,7 +43,7 @@ Example: `todo finish homework`
 >If the above format is not followed, the bot will prompt the user 
 to add a todo task in the correct format.
 
-
+---
 `deadline`
 
 Users can add a deadline task to the list in the format: 
@@ -56,6 +56,7 @@ Example: `deadline finish homework /by 2022-01-09`
 >If the above format is not followed, the bot will prompt the user 
 to add a deadline task in the correct format.
 
+---
 
 `event`
 
@@ -69,7 +70,7 @@ Example: `event finish homework /from 2022-01-09 /to 2022-01-12`
 >If the above format is not followed, the bot will prompt the user 
 to add an event task in the correct format.
 
-
+---
 
 ## Task Search 
 `find`
@@ -83,6 +84,7 @@ the specified keyword.**
 >If there are no matching tasks found in the current list, the bot 
 will output "No matching tasks found in current list."
 
+---
 
 ## Task Deletion
 `delete`
@@ -99,6 +101,7 @@ to delete in the correct format.
 >If there is no matching index found in the list, the bot will prompt
 the user to input an appropriate index.
 
+---
 
 ## Task Mark 
 `mark`
@@ -115,6 +118,7 @@ to delete in the correct format.
 >If there is no matching index found in the list, the bot will prompt
 the user to input an appropriate index.
 
+---
 
 ## Task View
 `list`
@@ -125,6 +129,7 @@ list byt inputting `list`
 >If there are no tasks in the current list, the bot will output 
 "No tasks in your list yet!"
 
+---
 
 `upcoming tasks`
 
