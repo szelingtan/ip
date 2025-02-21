@@ -145,7 +145,7 @@ public class TaskList {
             return "No matching tasks found in current list.";
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append("Here are the matching tasks in your " + "list\n");
+            sb.append("Here are the matching tasks in your " + "list:\n");
             int resultNumber = 1;
             for (int originalIndex : matchingIndices) {
                 Task task = tasks.get(originalIndex);
