@@ -30,7 +30,8 @@ management journey and is _free_ for all to use!
 8. upcoming tasks
 
 ## Command Details
-The sections below provide more detailed descriptions of each feature.
+The sections below categorise related commands together and
+provide more detailed descriptions of each command.
 
 ## Task Creation
 `todo`
@@ -39,8 +40,14 @@ Users can add a todo task to the list in the format:
 `todo DESCRIPTION`
 
 Example: `todo finish homework`
+Expected Output: 
+```
+Got it. I've added this task:
+ [T][ ] finish homework
+Now you have 1 tasks in the list.
+```
 
->If the above format is not followed, the bot will prompt the user 
+>If the above example format is not followed, the bot will prompt the user 
 to add a todo task in the correct format.
 
 ---
@@ -52,6 +59,12 @@ Users can add a deadline task to the list in the format:
 **Date Format: yyyy-mm-dd**
 
 Example: `deadline finish homework /by 2022-01-09`
+Expected Output:
+```
+Got it. I've added this task:
+ [D][ ] finish homework (by: Jan 09 2022)
+Now you have 2 tasks in the list.
+```
 
 >If the above format is not followed, the bot will prompt the user 
 to add a deadline task in the correct format.
@@ -66,6 +79,12 @@ Users can add an event task to the list in the format
 **Date Format: yyyy-mm-dd**
 
 Example: `event finish homework /from 2022-01-09 /to 2022-01-12`
+Expected Output:
+```
+Got it. I've added this task:
+ [E][ ] finish homework (from: Jan 09 2022 to: Jan 12 2022)
+Now you have 3 tasks in the list.
+```
 
 >If the above format is not followed, the bot will prompt the user 
 to add an event task in the correct format.
@@ -81,6 +100,8 @@ Users can find a task from the list by searching in the format
 **The bot will return all tasks in the current list that contain
 the specified keyword.**
 
+Example: `find homework`
+
 >If there are no matching tasks found in the current list, the bot 
 will output "No matching tasks found in current list."
 
@@ -94,6 +115,8 @@ Users can delete a task from the list by deleting in the format
 
 **INDEX refers to the index of the task to be
 deleted in the current list.**
+
+Example: `delete 1`
 
 >If the above format is not followed, the bot will prompt the user 
 to delete in the correct format.
@@ -111,6 +134,8 @@ Users can mark a task in the list as done by marking in the format
 
 **INDEX refers to the index of the task to be 
 marked in the current list.**
+
+Example: `mark 1`
 
 >If the above format is not followed, the bot will prompt the user 
 to delete in the correct format.
