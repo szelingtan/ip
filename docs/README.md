@@ -34,7 +34,7 @@ The sections below categorise related commands together and
 provide more detailed descriptions of each command.
 
 ## Task Creation
-`todo`
+- `todo`
 
 Users can add a todo task to the list in the format:
 `todo DESCRIPTION`
@@ -52,7 +52,7 @@ Now you have 1 tasks in the list.
 to add a todo task in the correct format.
 
 ---
-`deadline`
+- `deadline`
 
 Users can add a deadline task to the list in the format: 
 `deadline DESCRIPTION /by DATE`
@@ -73,7 +73,7 @@ to add a deadline task in the correct format.
 
 ---
 
-`event`
+- `event`
 
 Users can add an event task to the list in the format 
 `event DESCRIPTION /from DATE /to DATE`
@@ -133,7 +133,7 @@ the user to input an appropriate index.
 ---
 
 ## Task Mark 
-### `mark`
+`mark`
 
 Users can mark a task in the list as done by marking in the format
 `mark INDEX` 
@@ -160,7 +160,7 @@ Example TaskList Containing:
 2. [E][] workshop (from: May 03 2025 to: May 09 2025)
 
 ---
-### `list`
+- `list`
 
 Users can view their tasks details and completion status in their current
 list byt inputting `list`
@@ -177,7 +177,7 @@ Here are the tasks in your list
 
 ---
 
-### `upcoming tasks`
+- `upcoming tasks`
 
 Users can view upcoming tasks in their list by inputting
 `upcoming tasks`
