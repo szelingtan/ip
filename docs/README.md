@@ -177,7 +177,7 @@ Here are the tasks in your list
 
 ---
 
-`upcoming tasks`
+**`upcoming tasks`**
 
 Users can view upcoming tasks in their list by inputting
 `upcoming tasks`
