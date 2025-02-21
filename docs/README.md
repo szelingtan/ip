@@ -3,8 +3,8 @@
 ![Demo](../docs/Ui.png)
 
 
-- [x] Do you have a **busy** schedule?
-- [x] Do you want a **better** way to manage your schedule?
+* Do you have a **busy** schedule?
+* Do you want a **better** way to manage your schedule?
 
 **Introducing...**  `Tringa`, a bot that _simplifies_ your task 
 management journey and is _free_ for all to use!
@@ -32,7 +32,7 @@ management journey and is _free_ for all to use!
 ## Command Details
 The sections below provide more detailed descriptions of each feature.
 
-### Task Creation
+## Task Creation
 `todo`
 
 Users can add a todo task to the list in the format:
@@ -71,7 +71,7 @@ to add an event task in the correct format.
 
 
 
-### Task Search 
+## Task Search 
 `find`
 
 Users can find a task from the list by searching in the format
@@ -84,7 +84,7 @@ the specified keyword.**
 will output "No matching tasks found in current list."
 
 
-### Task Deletion
+## Task Deletion
 `delete`
 
 Users can delete a task from the list by deleting in the format
@@ -100,7 +100,7 @@ to delete in the correct format.
 the user to input an appropriate index.
 
 
-### Task Mark 
+## Task Mark 
 `mark`
 
 Users can mark a task in the list as done by marking in the format
@@ -116,7 +116,7 @@ to delete in the correct format.
 the user to input an appropriate index.
 
 
-### Task View
+## Task View
 `list`
 
 Users can view their tasks details and completion status in their current
