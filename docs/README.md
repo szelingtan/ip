@@ -94,7 +94,7 @@ to add an event task in the correct format.
 
 ---
 
-#### Refer to this task list for the following segments:
+### Refer to this task list for the remaining segments:
 1. [T][] finish homework
 2. [E][] workshop (from: May 03 2025 to: May 09 2025)
 
