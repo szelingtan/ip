@@ -10,14 +10,14 @@
 management journey and is _free_ for all to use!
 
 ## Command Use Summary
-1. _Find_ tasks with a keyword 
-2. Add _todo_ tasks 
-3. Add _deadline_ tasks (tasks with a deadline)
-4. Add _event_ (tasks between a stipulated period)
-5. _List_ task listings and completion status
-6. _Mark_ tasks as done
-7. _Delete_ unwanted tasks
-8. View _upcoming tasks_ 
+1. **Find** tasks with a keyword 
+2. Add **todo** tasks 
+3. Add **deadline** tasks (tasks with a deadline)
+4. Add **event** (tasks between a stipulated period)
+5. **List** task listings and completion status
+6. **Mark** tasks as done
+7. **Delete** unwanted tasks
+8. View **upcoming tasks**
 
 ## Command Format Summary 
 1. find KEYWORD
