@@ -1,4 +1,4 @@
-package tringaa;
+package tringaa.exceptions;
 
 public class TringaException extends Exception {
     public TringaException(String message) {

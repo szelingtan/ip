@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.format.DateTimeParseException;
 
 import org.junit.jupiter.api.Test;
+import tringaa.tasks.Deadline;
 
 class DeadlineTest {
     private Deadline deadline;

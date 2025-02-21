@@ -1,4 +1,4 @@
-package tringaa;
+package tringaa.exceptions;
 
 /**
  * Custom exception for task storage errors.

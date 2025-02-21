@@ -1,4 +1,4 @@
-package tringaa;
+package tringaa.tasks;
 
 /**
  * Represents a To-Do task in the Tringa task management system.

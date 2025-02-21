@@ -1,4 +1,4 @@
-package tringaa;
+package tringaa.exceptions;
 
 public class UnknownCommandException extends TringaException {
     public UnknownCommandException(String message) {

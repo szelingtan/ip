@@ -43,7 +43,6 @@ public class MainWindow extends AnchorPane {
         );
     }
 
-
     /** Injects the Tringa instance */
     public void setTringa(Tringa t) {
         tringa = t;

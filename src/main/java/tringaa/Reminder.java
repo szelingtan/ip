@@ -2,6 +2,9 @@ package tringaa;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import tringaa.tasks.Deadline;
+import tringaa.tasks.Event;
+import tringaa.tasks.Task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

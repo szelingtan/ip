@@ -1,4 +1,4 @@
-package tringaa;
+package tringaa.tasks;
 
 /**
  * Abstract base class for all tasks in the task management system.

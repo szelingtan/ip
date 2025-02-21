@@ -1,4 +1,4 @@
-package tringaa;
+package tringaa.tasks;
 
 /**
  * Represents an Event task with a start and end time.
