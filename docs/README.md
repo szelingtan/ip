@@ -144,4 +144,3 @@ marked as done and the event has not started.**
 
 >If there are no valid upcoming tasks, the bot will output 
 "No upcoming tasks!"
-```
