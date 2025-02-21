@@ -94,11 +94,13 @@ to add an event task in the correct format.
 
 ---
 
-## Task Search 
-Example TaskList Containing:
+#### Refer to this task list for the following segments:
 1. [T][] finish homework
 2. [E][] workshop (from: May 03 2025 to: May 09 2025)
+
 ---
+
+## Task Search
 
 `find`
 
@@ -122,11 +124,6 @@ will output "No matching tasks found in current list."
 ---
 
 ## Task Deletion
-Example TaskList Containing:
-1. [T][] finish homework
-2. [E][] workshop (from: May 03 2025 to: May 09 2025)
-
----
 
 `delete`
 
@@ -156,12 +153,7 @@ the user to input an appropriate index.
 
 ---
 
-## Task Mark 
-Example TaskList Containing:
-1. [T][] finish homework
-2. [E][] workshop (from: May 03 2025 to: May 09 2025)
-
----
+## Task Mark
 `mark`
 
 Users can mark a task in the list as done by marking in the format
@@ -190,11 +182,6 @@ the user to input an appropriate index.
 ---
 
 ## Task View
-Example TaskList Containing: 
-1. [T][] finish homework
-2. [E][] workshop (from: May 03 2025 to: May 09 2025)
-
----
 `list`
 
 Users can view their tasks details and completion status in their current
