@@ -133,7 +133,7 @@ the user to input an appropriate index.
 ---
 
 ## Task Mark 
-`mark`
+### `mark`
 
 Users can mark a task in the list as done by marking in the format
 `mark INDEX` 
@@ -160,7 +160,7 @@ Example TaskList Containing:
 2. [E][] workshop (from: May 03 2025 to: May 09 2025)
 
 ---
-`list`
+### `list`
 
 Users can view their tasks details and completion status in their current
 list byt inputting `list`
@@ -177,7 +177,7 @@ Here are the tasks in your list
 
 ---
 
-**`upcoming tasks`**
+### `upcoming tasks`
 
 Users can view upcoming tasks in their list by inputting
 `upcoming tasks`
