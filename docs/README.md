@@ -9,6 +9,12 @@
 **Introducing...**  `Tringa`, a bot that _simplifies_ your task 
 management journey and is _free_ for all to use!
 
+## Quick Start
+1. Download the latest .jar file from [here](https://github.com/szelingtan/ip/releases)
+2. Open terminal
+3. Navigate to the directory which contains `Tringa.jar`
+4. Run `java -jar Tringa.jar`
+
 ## Command Use Summary
 1. **Find** tasks with a keyword 
 2. Add **todo** tasks 
