@@ -34,7 +34,7 @@ The sections below categorise related commands together and
 provide more detailed descriptions of each command.
 
 ## Task Creation
-- `todo`
+`todo`
 
 Users can add a todo task to the list in the format:
 `todo DESCRIPTION`
@@ -52,7 +52,7 @@ Now you have 1 tasks in the list.
 to add a todo task in the correct format.
 
 ---
-- `deadline`
+`deadline`
 
 Users can add a deadline task to the list in the format: 
 `deadline DESCRIPTION /by DATE`
@@ -73,7 +73,7 @@ to add a deadline task in the correct format.
 
 ---
 
-- `event`
+`event`
 
 Users can add an event task to the list in the format 
 `event DESCRIPTION /from DATE /to DATE`
@@ -111,6 +111,11 @@ will output "No matching tasks found in current list."
 ---
 
 ## Task Deletion
+Example TaskList Containing:
+1. [T][] finish homework
+2. [E][] workshop (from: May 03 2025 to: May 09 2025)
+---
+
 `delete`
 
 Users can delete a task from the list by deleting in the format
@@ -120,6 +125,13 @@ Users can delete a task from the list by deleting in the format
 deleted in the current list.**
 
 Example: `delete 1`
+
+Expected Output (Refer to above list):
+```
+Noted. I've removed this task:
+ [T][X] finish homework
+Now you have 1 tasks in the list.
+```
 
 >If the above format is not followed, the bot will prompt the user 
 to delete in the correct format.
@@ -133,6 +145,10 @@ the user to input an appropriate index.
 ---
 
 ## Task Mark 
+Example TaskList Containing:
+1. [T][] finish homework
+2. [E][] workshop (from: May 03 2025 to: May 09 2025)
+---
 `mark`
 
 Users can mark a task in the list as done by marking in the format
@@ -142,6 +158,12 @@ Users can mark a task in the list as done by marking in the format
 marked in the current list.**
 
 Example: `mark 1`
+
+Expected Output (Refer to above list):
+```
+Nice! I've marked this task as done:
+ [T][X] finish homework
+```
 
 >If the above format is not followed, the bot will prompt the user 
 to delete in the correct format.
@@ -160,7 +182,7 @@ Example TaskList Containing:
 2. [E][] workshop (from: May 03 2025 to: May 09 2025)
 
 ---
-- `list`
+`list`
 
 Users can view their tasks details and completion status in their current
 list byt inputting `list`
@@ -177,7 +199,7 @@ Here are the tasks in your list
 
 ---
 
-- `upcoming tasks`
+`upcoming tasks`
 
 Users can view upcoming tasks in their list by inputting
 `upcoming tasks`
